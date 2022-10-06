@@ -13,7 +13,6 @@ namespace EduCar
     {
         public static void Main(string[] args)
         {
-            //Testeeeeeeeeeeeeeeeeee
             CreateHostBuilder(args).Build().Run();
         }
 
