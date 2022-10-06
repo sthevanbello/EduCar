@@ -47,6 +47,5 @@ namespace EduCar.Models
         //public ICollection<Pedido> Pedidos { get; set; }
 
         //public ICollection<Cartao> Cartoes { get; set; }
-
     }
 }

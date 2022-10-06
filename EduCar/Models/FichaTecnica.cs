@@ -29,6 +29,5 @@ namespace EduCar.Models
         //[ForeignKey("Cambio")]
         //public int IdCambio { get; set; }
         //public Cambio Cambio { get; set; }
-
     }
 }
