@@ -10,6 +10,6 @@ namespace EduCar.Models
 
         [Required(ErrorMessage = "Tipo é obrigatório")]
         public string Tipo { get; set; }
-        public ICollection<FichaTecnica> FichaTecnica { get; set; }
+        public ICollection<FichaTecnica> FichasTecnicas { get; set; }
     }
 }
