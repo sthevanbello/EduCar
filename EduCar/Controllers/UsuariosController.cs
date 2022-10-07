@@ -21,6 +21,37 @@ namespace EduCar.Controllers
         }
 
         /// <summary>
+        /// Inserir um usuário no banco.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        /// 
+        /// </remarks>
+        /// <param name="usuario">Usuário a ser inserido</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna um usuário inserido ou uma mensagem se houve alguma falha</returns>
+        [HttpPost]
+        public IActionResult InsertUsuario(Usuario usuario)
+        {
+            try
+            {
+                usuario.IdTipoUsuario = 1;
+                var usuarioInserido = _usuarioRepository.Insert(usuario);
+                return Ok(usuarioInserido);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    msg = "Falha ao inserir um usuário no banco",
+                    ex.InnerException.Message
+                });
+            }
+        }
+        /// <summary>
         /// Exibir uma lista de usuários cadastrados no sistema
         /// </summary>
         /// <remarks>

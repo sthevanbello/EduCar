@@ -12,7 +12,8 @@ using Microsoft.EntityFrameworkCore;
 namespace EduCar.Repositories
 {
     /// <summary>
-    /// Repositório para efetuar a autenticação do usuário
+    /// Repositório da Model Login
+    /// Repositório coma a função de efetuar a autenticação do usuário
     /// </summary>
     public class LoginRepository : ILoginRepository
     {

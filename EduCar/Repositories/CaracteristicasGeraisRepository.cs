@@ -6,7 +6,11 @@ using System.Linq;
 
 namespace EduCar.Repositories
 {
-    public class CaracteristicasGeraisRepository : BaseRepository<Pedido>, ICaracteristicasGeraisRepository
+    /// <summary>
+    /// Repositório da Model CaracteristicasGerais
+    /// Todos os métodos básicos estão na BaseRepository
+    /// </summary>
+    public class CaracteristicasGeraisRepository : BaseRepository<CaracteristicasGerais>, ICaracteristicasGeraisRepository
     {
         public CaracteristicasGeraisRepository(EduCarContext context) : base(context)
         {
