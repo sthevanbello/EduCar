@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using EduCar.Contexts;
 using EduCar.Interfaces;
@@ -41,6 +43,10 @@ namespace EduCar
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EduCar", Version = "v1" });
+
+                // Adiciona os comentários na documentação do Swagger
+                var xmlArquivo = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlArquivo));
             });
 
             // Injeção de dependência do EduCarContext
