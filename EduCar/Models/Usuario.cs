@@ -36,16 +36,16 @@ namespace EduCar.Models
         [Required]
         public bool Aceite { get; set; }
 
-        //[ForeignKey("Endereco")]
-        //public int IdEndereço { get; set; }
-        //public Endereco Endereco { get; set; }
+        [ForeignKey("Endereco")]
+        public int IdEndereço { get; set; }
+        public Endereco Endereco { get; set; }
 
-        //[ForeignKey("TipoUsuario")]
-        //public int IdTipoUsuario { get; set; }
-        //public TipoUsuario TipoUsuario { get; set; }
+        [ForeignKey("TipoUsuario")]
+        public int IdTipoUsuario { get; set; }
+        public TipoUsuario TipoUsuario { get; set; }
 
-        //public ICollection<Pedido> Pedidos { get; set; }
+        public ICollection<Pedido> Pedidos { get; set; }
 
-        //public ICollection<Cartao> Cartoes { get; set; }
+        public ICollection<Cartao> Cartoes { get; set; }
     }
 }
