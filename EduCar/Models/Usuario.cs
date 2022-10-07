@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduCar.Models
 {
@@ -36,16 +37,17 @@ namespace EduCar.Models
         [Required]
         public bool Aceite { get; set; }
 
-        //[ForeignKey("Endereco")]
-        //public int IdEndereço { get; set; }
-        //public Endereco Endereco { get; set; }
+        [ForeignKey("Endereco")]
+        public int IdEndereço { get; set; }
+        public Endereco Endereco { get; set; }
 
-        //[ForeignKey("TipoUsuario")]
-        //public int IdTipoUsuario { get; set; }
-        //public TipoUsuario TipoUsuario { get; set; }
-
-        //public ICollection<Pedido> Pedidos { get; set; }
-
-        //public ICollection<Cartao> Cartoes { get; set; }
+        [ForeignKey("TipoUsuario")]
+        public int IdTipoUsuario { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public TipoUsuario TipoUsuario { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public ICollection<Pedido> Pedidos { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public ICollection<Cartao> Cartoes { get; set; }
     }
 }
