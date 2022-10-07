@@ -12,6 +12,14 @@ namespace EduCar.Models
         [Required(ErrorMessage = "Nome da Concessionária é obrigatório")]        
         public string Nome { get; set; }
 
+        [Required(ErrorMessage = "Telefone é obrigatório")]
+        [StringLength(10)]
+        public string Telefone { get; set; }
+
+        [Required(ErrorMessage = "Site é obrigatório")]
+        public string Site { get; set; }
+
+
         [ForeignKey("Endereco")]
         public int IdEndereco { get; set; }
         public Endereco Endereco { get; set; }

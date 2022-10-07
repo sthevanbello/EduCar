@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduCar.Migrations
 {
     [DbContext(typeof(EduCarContext))]
-    [Migration("20221007144010_InicialDB")]
+    [Migration("20221007172815_InicialDB")]
     partial class InicialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,6 +122,15 @@ namespace EduCar.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Site")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
