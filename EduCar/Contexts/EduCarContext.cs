@@ -17,7 +17,6 @@ namespace EduCar.Contexts
         public DbSet<Direcao> Direcao { get; set; }
         public DbSet<Endereco> Endereco { get; set; }
         public DbSet<FichaTecnica> FichaTecnica { get; set; }
-        public DbSet<Login> Login { get; set; }
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<TipoUsuario> TipoUsuario { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
