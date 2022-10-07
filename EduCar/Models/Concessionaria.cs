@@ -16,7 +16,7 @@ namespace EduCar.Models
         public int IdEndereco { get; set; }
         public Endereco Endereco { get; set; }
 
-        //public ICollection<Veiculos> Veiculos{ get; set; }
+        public ICollection<Veiculo> Veiculos { get; set; }
         public ICollection<Pedido> Pedidos { get; set; }
 
 

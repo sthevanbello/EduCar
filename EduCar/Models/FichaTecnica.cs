@@ -22,12 +22,12 @@ namespace EduCar.Models
         [Required(ErrorMessage = "Quilometragem do veículo é obrigatória")]
         public string Quilometragem { get; set; }
 
-        //[ForeignKey("Direcao")]
-        //public int IdDirecao { get; set; }
-        //public Direcao Direcao { get; set; }
+        [ForeignKey("Direcao")]
+        public int IdDirecao { get; set; }
+        public Direcao Direcao { get; set; }
 
-        //[ForeignKey("Cambio")]
-        //public int IdCambio { get; set; }
-        //public Cambio Cambio { get; set; }
+        [ForeignKey("Cambio")]
+        public int IdCambio { get; set; }
+        public Cambio Cambio { get; set; }
     }
 }
