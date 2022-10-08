@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduCar.Models
 {
@@ -42,10 +43,11 @@ namespace EduCar.Models
 
         [ForeignKey("TipoUsuario")]
         public int IdTipoUsuario { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public TipoUsuario TipoUsuario { get; set; }
-
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<Pedido> Pedidos { get; set; }
-
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<Cartao> Cartoes { get; set; }
     }
 }
