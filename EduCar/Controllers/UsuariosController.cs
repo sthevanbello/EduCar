@@ -38,7 +38,6 @@ namespace EduCar.Controllers
         {
             try
             {
-                usuario.IdTipoUsuario = 1;
                 var usuarioInserido = _usuarioRepository.Insert(usuario);
                 return Ok(usuarioInserido);
             }
