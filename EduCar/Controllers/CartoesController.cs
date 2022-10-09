@@ -221,7 +221,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o cartão foi excluído ou se houve falha</returns>
-        [Authorize(Roles = "Master")]
+        //[Authorize(Roles = "Master")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCartao(int id)
         {
