@@ -23,10 +23,12 @@ namespace EduCar.Repositories
         public Veiculo GetPlaca(string placa)
         {
             var veiculoPlaca = _context.Veiculo
-                  .Include(c => c.CaracteristicasGerais) // inclui a classe CaracteristicasGerais para ser exibida
-                  .Include(f => f.FichaTecnica)  // inclui a classe FichaTecnica para ser exibida
-                  .FirstOrDefault(c => c.CaracteristicasGerais.Placa == placa); // busca a placa selecionada do veículo correspondente         
 
+                  .Include(s => s.StatusVenda)  // inclui a classe StatusVenda para ser exibida
+                  .Include(con => con.Concessionaria)  // inclui a classe Concessionaria para ser exibida
+                  .Include(f => f.FichaTecnica)  // inclui a classe FichaTecnica para ser exibida
+                  .Include(c => c.CaracteristicasGerais) // inclui a classe CaracteristicasGerais para ser exibida
+                  .FirstOrDefault(c => c.CaracteristicasGerais.Placa == placa); // busca a placa selecionada do veículo correspondente
             return veiculoPlaca;
         }
 
@@ -34,6 +36,9 @@ namespace EduCar.Repositories
         {
             var veiculos = _context.Veiculo
                 .Include(s => s.StatusVenda)
+                .Include(con => con.Concessionaria)
+                .Include(f => f.FichaTecnica)
+                .Include(c => c.CaracteristicasGerais)
                 .Where(s => s.StatusVenda.Status == "Disponivel")
                 .ToList();
 
