@@ -23,9 +23,9 @@ namespace EduCar.Repositories
         public Veiculo GetPlaca(string placa)
         {
             var veiculoPlaca = _context.Veiculo
-                  .Include(c => c.CaracteristicasGerais) // inclui a classe Medico para ser exibida
-                   .Include(f => f.FichaTecnica)  // inclui a classe Especialidade para ser exibida
-                  .FirstOrDefault(c => c.CaracteristicasGerais.Placa == placa); // quando o id do tipo de usuario for igual a 1 (que são os médicos)           
+                  .Include(c => c.CaracteristicasGerais) // inclui a classe CaracteristicasGerais para ser exibida
+                  .Include(f => f.FichaTecnica)  // inclui a classe FichaTecnica para ser exibida
+                  .FirstOrDefault(c => c.CaracteristicasGerais.Placa == placa); // busca a placa selecionada do veículo correspondente         
 
             return veiculoPlaca;
         }
