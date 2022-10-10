@@ -56,7 +56,7 @@ namespace EduCar.Controllers
         /// 
         /// 
         /// </remarks>
-        /// <param name="id">Id das características gerais do veículo</param>
+        /// <param name="id">Id das características gerais dos veículos</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna as características gerais</returns>
