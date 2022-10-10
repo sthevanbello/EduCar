@@ -135,6 +135,15 @@ namespace EduCar.Controllers
             try
             {
                 var placaVeiculo = _veiculoRepository.GetPlaca(placa);
+
+                if (placaVeiculo is null)
+                {
+                    return BadRequest(new
+                    {
+                        msg = "Não foi possível encontrar uma placa"
+                    });
+                }
+
                 return Ok(placaVeiculo);
             }
             catch (Exception ex)
