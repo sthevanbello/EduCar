@@ -14,6 +14,10 @@ namespace EduCar.Models
         public double Valor { get; set; }
         public string Imagem { get; set; }
 
+        [ForeignKey("StatusVenda")]   // foreign key/ chave estrangeira IdStatusVenda        
+        public int IdStatusVenda { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public StatusVenda StatusVenda { get; set; }   // classe StatusVenda como objeto
 
         [ForeignKey("Concessionaria")]   // foreign key/ chave estrangeira IdConcessionaria        
         public int IdConcessionaria { get; set; }
