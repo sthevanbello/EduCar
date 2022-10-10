@@ -46,7 +46,7 @@ namespace EduCar.Controllers
                     });
                 }
 
-                return Ok( new {token = retorno});
+                return Ok(retorno);
             }
             catch (Exception ex)
             {
