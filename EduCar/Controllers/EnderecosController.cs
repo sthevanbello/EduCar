@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System;
+using EduCar.Repositories;
 
 namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuariosController : ControllerBase
+    public class EnderecosController : ControllerBase
     {
-        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IEnderecoRepository _enderecoRepository;
 
-        public UsuariosController(IUsuarioRepository usuarioRepository)
+        public EnderecosController(IEnderecoRepository enderecoRepository)
         {
-            _usuarioRepository = usuarioRepository;
+            _enderecoRepository = enderecoRepository;
         }
 
         /// <summary>
-        /// Inserir um usuário no banco.
+        /// Inserir um endereço no banco.
         /// </summary>
         /// <remarks>
         /// 
@@ -29,29 +30,30 @@ namespace EduCar.Controllers
         /// 
         /// 
         /// </remarks>
-        /// <param name="usuario">Usuário a ser inserido</param>
+        /// <param name="endereco">Endereço a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna um usuário inserido ou uma mensagem se houve alguma falha</returns>
+        /// <returns>Retorna um endereço inserido ou uma mensagem se houve alguma falha</returns>
         [HttpPost]
-        public IActionResult InsertUsuario(Usuario usuario)
+        public IActionResult InsertEndereco(Endereco endereco)
         {
             try
             {
-                var usuarioInserido = _usuarioRepository.Insert(usuario);
-                return Ok(usuarioInserido);
+                var enderecoInserido = _enderecoRepository.Insert(endereco);
+                return Ok(enderecoInserido);
             }
             catch (Exception ex)
             {
                 return BadRequest(new
                 {
-                    msg = "Falha ao inserir um usuário no banco",
+                    msg = "Falha ao inserir um endereço no banco",
                     ex.InnerException.Message
                 });
             }
         }
+
         /// <summary>
-        /// Exibir uma lista de usuários cadastrados no sistema
+        /// Exibir uma lista de endereços cadastrados no sistema
         /// </summary>
         /// <remarks>
         /// 
@@ -61,28 +63,28 @@ namespace EduCar.Controllers
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma lista de usuários</returns>
+        /// <returns>Retorna uma lista de Endereços</returns>
         [HttpGet]
-        public IActionResult GetAllUsuarios()
+        public IActionResult GetAllEnderecos()
         {
             try
             {
-                var usuarios = _usuarioRepository.GetAll();
-                return Ok(usuarios);
+                var enderecos = _enderecoRepository.GetAll();
+                return Ok(enderecos);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(new
                 {
-                    msg = "Falha ao listar os usuários",
+                    msg = "Falha ao listar os endereços",
                     ex.InnerException.Message
                 });
             }
         }
 
         /// <summary>
-        /// Exibir um usuário a partir do Id fornecido
+        /// Exibir um endereço a partir do Id fornecido
         /// </summary>
         /// <remarks>
         /// 
@@ -90,35 +92,35 @@ namespace EduCar.Controllers
         /// 
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário</param>
+        /// <param name="id">Id do endereço</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna um Usuário</returns>
+        /// <returns>Retorna um Endereço</returns>
         [HttpGet("{id}")]
-        public IActionResult GetByIdUsuario(int id)
+        public IActionResult GetByIdEndereco(int id)
         {
             try
             {
-                var usuario = _usuarioRepository.GetById(id);
-                if (usuario is null)
+                var endereco = _enderecoRepository.GetById(id);
+                if (endereco is null)
                 {
-                    return NotFound(new { msg = "Usuário não foi encontrado. Verifique se o Id está correto" });
+                    return NotFound(new { msg = "Endereço não foi encontrado. Verifique se o Id está correto" });
                 }
-                return Ok(usuario);
+                return Ok(endereco);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(new
                 {
-                    msg = "Falha ao exibir o usuário",
+                    msg = "Falha ao exibir o endereço",
                     ex.InnerException.Message
                 });
             }
         }
 
         /// <summary>
-        /// Atualizar parte das informações do usuário
+        /// Atualizar parte das informações do endereço
         /// </summary>
         /// <remarks>
         /// 
@@ -126,44 +128,44 @@ namespace EduCar.Controllers
         /// 
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário</param>
-        /// <param name="patchUsuario">informações a serem alteradas</param>
+        /// <param name="id">Id do endereço</param>
+        /// <param name="patchEndereco">informações a serem alteradas</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
+        /// <returns>Retorna uma mensagem dizendo se o endereço foi alterado ou se houve algum erro</returns>
         [HttpPatch("{id}")]
-        public IActionResult PatchUsuario(int id, [FromBody] JsonPatchDocument patchUsuario)
+        public IActionResult PatchEndereco(int id, [FromBody] JsonPatchDocument patchEndereco)
         {
             try
             {
-                if (patchUsuario is null)
+                if (patchEndereco is null)
                 {
                     return BadRequest(new { msg = "Insira os dados novos" });
                 }
 
-                var usuario = _usuarioRepository.GetById(id);
-                if (usuario is null)
+                var endereco = _enderecoRepository.GetById(id);
+                if (endereco is null)
                 {
-                    return NotFound(new { msg = "Usuário não encontrado. Conferir o Id informado" });
+                    return NotFound(new { msg = "Endereço não encontrado. Conferir o Id informado" });
                 }
 
-                _usuarioRepository.Patch(patchUsuario, usuario);
+                _enderecoRepository.Patch(patchEndereco, endereco);
 
-                return Ok(new { msg = "Usuário alterado", usuario });
+                return Ok(new { msg = "Endereço alterado", endereco });
             }
             catch (Exception ex)
             {
 
                 return BadRequest(new
                 {
-                    msg = "Falha ao alterar o usuário",
+                    msg = "Falha ao alterar o endereço",
                     ex.InnerException.Message
                 });
             }
         }
 
         /// <summary>
-        /// Alterar um usuário a partir do Id fornecido
+        /// Alterar um endereço a partir do Id fornecido
         /// </summary>
         /// <remarks>
         /// 
@@ -171,43 +173,43 @@ namespace EduCar.Controllers
         /// 
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário</param>
-        /// <param name="usuario">Dados atualizados</param>
+        /// <param name="id">Id do endereço</param>
+        /// <param name="endereco">Dados atualizados</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
+        /// <returns>Retorna uma mensagem dizendo se o endereço foi alterado ou se houve algum erro</returns>
         [HttpPut("{id}")]
-        public IActionResult PutUsuario(int id, Usuario usuario)
+        public IActionResult PutEndereco(int id, Endereco endereco)
         {
             try
             {
-                if (id != usuario.Id)
+                if (id != endereco.Id)
                 {
                     return BadRequest(new { msg = "Os ids não são correspondentes" });
                 }
-                var usuarioRetorno = _usuarioRepository.GetById(id);
+                var enderecoRetorno = _enderecoRepository.GetById(id);
 
-                if (usuarioRetorno is null)
+                if (enderecoRetorno is null)
                 {
-                    return NotFound(new { msg = "Usuário não encontrado. Conferir o Id informado" });
+                    return NotFound(new { msg = "Endereço não encontrado. Conferir o Id informado" });
                 }
-                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                _usuarioRepository.Put(usuario);
 
-                return Ok(new { msg = "Usuário alterado", usuario });
+                _enderecoRepository.Put(endereco);
+
+                return Ok(new { msg = "Endereço alterado", endereco });
             }
             catch (Exception ex)
             {
 
                 return BadRequest(new
                 {
-                    msg = "Falha ao alterar o usuário",
+                    msg = "Falha ao alterar o endereço",
                     ex.InnerException.Message
                 });
             }
         }
         /// <summary>
-        /// Excluir Usuário do banco de dados
+        /// Excluir endereço do banco de dados
         /// </summary>
         /// <remarks>
         /// 
@@ -215,33 +217,33 @@ namespace EduCar.Controllers
         /// 
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário a ser excluído</param>
+        /// <param name="id">Id do endereço a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma mensagem informando se o usuário foi excluído ou se houve falha</returns>
-        [Authorize(Roles = "Master")]
+        /// <returns>Retorna uma mensagem informando se o endereço foi excluído ou se houve falha</returns>
+        //[Authorize(Roles = "Master")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteUsuario(int id)
+        public IActionResult DeleteEndereco(int id)
         {
             try
             {
-                var usuarioRetorno = _usuarioRepository.GetById(id);
+                var enderecoRetorno = _enderecoRepository.GetById(id);
 
-                if (usuarioRetorno is null)
+                if (enderecoRetorno is null)
                 {
-                    return NotFound(new { msg = "Usuário não encontrado. Conferir o Id informado" });
+                    return NotFound(new { msg = "Endereço não encontrado. Conferir o Id informado" });
                 }
 
-                _usuarioRepository.Delete(usuarioRetorno);
+                _enderecoRepository.Delete(enderecoRetorno);
 
-                return Ok(new { msg = "Usuário excluído com sucesso" });
+                return Ok(new { msg = "Endereço excluído com sucesso" });
             }
             catch (Exception ex)
             {
 
                 return BadRequest(new
                 {
-                    msg = "Falha ao excluir o usuário. Verifique se há utilização como Foreign Key.",
+                    msg = "Falha ao excluir o endereço. Verifique se há utilização como Foreign Key.",
                     ex.InnerException.Message
                 });
             }
