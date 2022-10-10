@@ -117,6 +117,37 @@ namespace EduCar.Controllers
         }
 
 
+        /// <summary>
+        /// Exibir uma lista das placas dos veículos cadastrados no sistema
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        /// 
+        /// </remarks>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna uma lista de placas</returns>
+        [HttpGet("Placa")]
+        public IActionResult GetLicensePlates(string placa)
+        {
+            try
+            {
+                var placaVeiculo = _veiculoRepository.GetPlaca(placa);
+                return Ok(placaVeiculo);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    msg = "Falha ao listar as placas dos veículos",
+                    ex.InnerException.Message
+                });
+            }
+        }
+
         // <summary>
         /// Exibir uma lista de veículos apenas disponíveis cadastrados no sistema
         /// </summary>

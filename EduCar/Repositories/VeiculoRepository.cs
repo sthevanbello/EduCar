@@ -25,14 +25,20 @@ namespace EduCar.Repositories
             var veiculoPlaca = _context.Veiculo
                   .Include(c => c.CaracteristicasGerais) // inclui a classe Medico para ser exibida
                    .Include(f => f.FichaTecnica)  // inclui a classe Especialidade para ser exibida
-                  .FirstOrDefault(v => v.CaracteristicasGerais.Placa == placa); // quando o id do tipo de usuario for igual a 1 (que são os médicos)           
+                  .FirstOrDefault(c => c.CaracteristicasGerais.Placa == placa); // quando o id do tipo de usuario for igual a 1 (que são os médicos)           
 
             return veiculoPlaca;
         }
 
         public ICollection<Veiculo> GetStatusDisponivel()
         {
-            throw new System.NotImplementedException();
+            var veiculos = _context.Veiculo
+                .Include(s => s.StatusVenda)
+                .Where(s => s.StatusVenda.Status == "Disponivel")
+                .ToList();
+
+            return veiculos;
+
         }
     }
 }
