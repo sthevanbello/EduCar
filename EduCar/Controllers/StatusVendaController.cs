@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EduCar.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -27,19 +28,19 @@ namespace EduCar.Controllers
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de Status</returns>
         [HttpGet]
-        public IActionResult GetAllVeiculos()
+        public IActionResult GetAllStatus()
         {
             try
             {
-                var veiculos = _statusVendaRepository.GetAll();
-                return Ok(veiculos);
+                var status = _statusVendaRepository.GetAll();
+                return Ok(status);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(new
                 {
-                    msg = "Falha ao listar os veículos",
+                    msg = "Falha ao listar os status",
                     ex.InnerException.Message
                 });
             }
