@@ -21,5 +21,9 @@ namespace EduCar.Models
         [ForeignKey("Veiculo")]
         public int IdVeiculo { get; set; }
         public Veiculo Veiculo { get; set; }
+
+        [ForeignKey("Cartao")]
+        public int IdCartao { get; set; }
+        public Cartao Cartao { get; set; }
     }
 }
