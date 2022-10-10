@@ -56,7 +56,6 @@ namespace EduCar
 
             // Injeção de dependência dos repositórios
             services.AddTransient<ICambioRepository, CambioRepository>();
-            services.AddTransient<ICaracteristicasGeraisRepository, CaracteristicasGeraisRepository>();
             services.AddTransient<ICartaoRepository, CartaoRepository>();
             services.AddTransient<IConcessionariaRepository, ConcessionariaRepository>();
             services.AddTransient<IDirecaoRepository, DirecaoRepository>();
@@ -68,6 +67,7 @@ namespace EduCar
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IVeiculoRepository, VeiculoRepository>();
             services.AddTransient<IStatusVendaRepository, StatusVendaRepository>();
+            services.AddTransient<ICaracteristicasGeraisRepository, CaracteristicasGeraisRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
