@@ -180,52 +180,6 @@ namespace EduCar.Controllers
         }
 
 
-
-        ///// <summary>
-        ///// Atualizar parte das informações do veículo
-        ///// </summary>
-        ///// <remarks>
-        ///// 
-        ///// Acesso permitido:
-        ///// 
-        ///// 
-        ///// </remarks>
-        ///// <param name="id">Id do veículo</param>
-        ///// <param name="patchVeiculo">informações a serem alteradas</param>
-        ///// <response code="401">Acesso negado</response>
-        ///// <response code="403">Nível de acesso não está autorizado</response>
-        ///// <returns>Retorna uma mensagem dizendo se o veículo foi alterado ou se houve algum erro</returns>
-        //[HttpPatch("{id}")]
-        //public IActionResult PatchVeiculo(int id, [FromBody] JsonPatchDocument patchVeiculo)
-        //{
-        //    try
-        //    {
-        //        if (patchVeiculo is null)
-        //        {
-        //            return BadRequest(new { msg = "Insira os dados novos" });
-        //        }
-
-        //        var veiculo = _veiculoRepository.GetById(id);
-        //        if (veiculo is null)
-        //        {
-        //            return NotFound(new { msg = "Veículo não encontrado. Conferir o Id informado" });
-        //        }
-
-        //        _veiculoRepository.Patch(patchVeiculo, veiculo);
-
-        //        return Ok(new { msg = "Veículo alterado", veiculo });
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(new
-        //        {
-        //            msg = "Falha ao alterar o veículo",
-        //            ex.InnerException.Message
-        //        });
-        //    }
-        //}
-
         /// <summary>
         /// Alterar um veículo a partir do Id fornecido
         /// </summary>
