@@ -21,6 +21,7 @@ namespace EduCar.Contexts
         public DbSet<TipoUsuario> TipoUsuario { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Veiculo> Veiculo { get; set; }
+        public DbSet<StatusVenda> StatusVenda { get; set; }
 
     }
 }

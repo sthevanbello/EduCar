@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduCar.Models
 {
@@ -12,14 +13,17 @@ namespace EduCar.Models
 
         [ForeignKey("Usuario")]
         public int IdUsuario { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Usuario Usuario { get; set; }
 
         [ForeignKey("Concessionaria")]
         public int IdConcessionaria { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Concessionaria Concessionaria { get; set; }
 
         [ForeignKey("Veiculo")]
         public int IdVeiculo { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Veiculo Veiculo { get; set; }
 
         [ForeignKey("Cartao")]
