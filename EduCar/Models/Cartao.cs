@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduCar.Models
 {
@@ -10,7 +11,7 @@ namespace EduCar.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Número do cartão é obrigatório")]
-        [StringLength(16)]     
+        [StringLength(16)]
         public string Numero { get; set; }
 
         [Required(ErrorMessage = "Nome do titular é obrigatório")]
@@ -25,14 +26,16 @@ namespace EduCar.Models
         public string CPF_CNPJ { get; set; }
 
         [Required(ErrorMessage = "Data de vencimento é obrigatório")]
-        public DateTime Vencimento { get; set; }
+        [RegularExpression(@"(0[1-9]|10|11|12)/20[0-9]{2}$", ErrorMessage = "Informe um vencimento válido 'xx/xxxx'")]
+        public string Vencimento { get; set; }
 
         [Required(ErrorMessage = "CVV é obrigatório")]
-        [StringLength(3)]
-        public int CVV { get; set; }
+        [StringLength(3, ErrorMessage = "O CVV deverá conter apenas 3 digitos")]
+        public string CVV { get; set; }
 
         [ForeignKey("Usuario")]
         public int IdUsuario { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Usuario Usuario { get; set; }
     }
 }

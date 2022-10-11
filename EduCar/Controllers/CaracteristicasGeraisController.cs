@@ -11,7 +11,7 @@ namespace EduCar.Controllers
     public class CaracteristicasGeraisController : ControllerBase
     {
         private readonly ICaracteristicasGeraisRepository _caracteristicasGeraisRepository;
-        public CaracteristicasGeraisController(CaracteristicasGeraisRepository caracteristicasGeraisRepository)
+        public CaracteristicasGeraisController(ICaracteristicasGeraisRepository caracteristicasGeraisRepository)
         {
             _caracteristicasGeraisRepository = caracteristicasGeraisRepository;
         }

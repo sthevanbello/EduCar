@@ -32,7 +32,7 @@ namespace EduCar.Controllers
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um veículo inserido ou uma mensagem se houve alguma falha</returns>
         [HttpPost]
-        public IActionResult InsertVeiculo([FromForm] Veiculo veiculo)
+        public IActionResult InsertVeiculo(Veiculo veiculo)
         {
             try
             {
@@ -135,6 +135,15 @@ namespace EduCar.Controllers
             try
             {
                 var placaVeiculo = _veiculoRepository.GetPlaca(placa);
+
+                if (placaVeiculo is null)
+                {
+                    return BadRequest(new
+                    {
+                        msg = "Não foi possível encontrar uma placa"
+                    });
+                }
+
                 return Ok(placaVeiculo);
             }
             catch (Exception ex)
@@ -195,7 +204,7 @@ namespace EduCar.Controllers
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o veículo foi alterado ou se houve algum erro</returns>
         [HttpPut("{id}")]
-        public IActionResult PutVeiculo(int id, [FromForm] Veiculo veiculo)
+        public IActionResult PutVeiculo(int id, Veiculo veiculo)
         {
             try
             {

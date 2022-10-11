@@ -1,4 +1,6 @@
 ﻿using EduCar.Interfaces;
+using EduCar.Models;
+using EduCar.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,7 +17,36 @@ namespace EduCar.Controllers
         {
             _tipoUsuarioRepository = tipoUsuarioRepository;
         }
-
+        /// <summary>
+        /// Inserir um Tipo de usuário no banco.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        /// 
+        /// </remarks>
+        /// <param name="tipoUsuario">Tipo de usuário a ser inserido</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna um usuário inserido ou uma mensagem se houve alguma falha</returns>
+        [HttpPost]
+        public IActionResult InsertTipoUsuario(TipoUsuario tipoUsuario)
+        {
+            try
+            {
+                var tipoUsuarioInserido = _tipoUsuarioRepository.Insert(tipoUsuario);
+                return Ok(tipoUsuarioInserido);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    msg = "Falha ao inserir um Tipo de usuário no banco",
+                    ex.InnerException.Message
+                });
+            }
+        }
         /// <summary>
         /// Exibir uma lista de Tipos de usuários cadastrados no sistema
         /// </summary>
@@ -77,6 +108,32 @@ namespace EduCar.Controllers
                 return BadRequest(new
                 {
                     msg = "Falha ao exibir o tipo de usuário",
+                    ex.InnerException.Message
+                });
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTipoUsuario(int id)
+        {
+            try
+            {
+                var usuarioRetorno = _tipoUsuarioRepository.GetById(id);
+
+                if (usuarioRetorno is null)
+                {
+                    return NotFound(new { msg = "Tipo Usuário não encontrado. Conferir o Id informado" });
+                }
+
+                _tipoUsuarioRepository.Delete(usuarioRetorno);
+
+                return Ok(new { msg = "Tipo Usuário excluído com sucesso" });
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    msg = "Falha ao excluir o tipo usuário. Verifique se há utilização como Foreign Key.",
                     ex.InnerException.Message
                 });
             }
