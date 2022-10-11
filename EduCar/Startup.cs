@@ -99,10 +99,10 @@ namespace EduCar
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("Api-consultas-key")),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("case-chave-autenticacao")),
                     ClockSkew = TimeSpan.FromMinutes(30),
-                    ValidIssuer = "consultasMedicas.webAPI",
-                    ValidAudience = "consultasMedicas.webAPI"
+                    ValidIssuer = "case.webAPI",
+                    ValidAudience = "case.webAPI"
                 };
             });
 
