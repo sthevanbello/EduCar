@@ -27,12 +27,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador e Cliente 
         /// 
         /// </remarks>
         /// <param name="pedido">Pedido a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um pedido inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador, Cliente")]
         [HttpPost]
         public IActionResult InsertPedido(Pedido pedido)
         {
@@ -67,11 +69,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -98,11 +102,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos de um usuário</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("Email")]
         public IActionResult GetPedidosByUsuario(string email)
         {
@@ -136,11 +142,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos de uma concessionária</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("Concessionaria/{id}")]
         public IActionResult GetPedidosByConcessionaria(int id)
         {
@@ -175,12 +183,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do pedido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um pedido</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdPedido(int id)
         {

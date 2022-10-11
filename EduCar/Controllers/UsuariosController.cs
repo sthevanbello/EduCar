@@ -11,6 +11,7 @@ namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
@@ -27,12 +28,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="usuario">Usuário a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um usuário inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPost]
         public IActionResult InsertUsuario(Usuario usuario)
         {
@@ -60,11 +63,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de usuários</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllUsuarios()
         {
@@ -91,12 +96,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um Usuário</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdUsuario(int id)
         {
@@ -127,6 +134,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário</param>
@@ -134,6 +142,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPatch("{id}")]
         public IActionResult PatchUsuario(int id, [FromBody] JsonPatchDocument patchUsuario)
         {
@@ -172,6 +181,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário</param>
@@ -179,6 +189,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPut("{id}")]
         public IActionResult PutUsuario(int id, Usuario usuario)
         {
@@ -218,13 +229,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o usuário foi excluído ou se houve falha</returns>
-        [Authorize(Roles = "Master")]
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpDelete("{id}")]
         public IActionResult DeleteUsuario(int id)
         {

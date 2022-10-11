@@ -29,10 +29,21 @@ namespace EduCar.Controllers
         /// Exemplo: 
         /// 
         ///     {
-        ///         exemplo        
+        ///          "id": 0,
+        ///          "numero": "1234567891012134",
+        ///          "titular": "Zé das Couves",
+        ///          "bandeira": "Do Japão",
+        ///          "cpF_CNPJ": "12345678910",
+        ///          "vencimento": "10/2022",
+        ///          "cvv": "156",
+        ///          "idUsuario": 1         
         ///     }
         /// 
         /// Acesso permitido:
+        /// 
+        /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
+        /// 
         /// 
         /// 
         /// </remarks>
@@ -40,6 +51,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um cartão inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPost]
         public IActionResult InsertCartao(Cartao cartao)
         {
@@ -65,11 +77,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de cartões</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllCartoes()
         {
@@ -90,48 +104,13 @@ namespace EduCar.Controllers
         }
 
         /// <summary>
-        /// Exibir um cartão a partir do Id fornecido
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// Acesso permitido:
-        /// 
-        /// 
-        /// </remarks>
-        /// <param name="id">Id do cartão</param>
-        /// <response code="401">Acesso negado</response>
-        /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna um Cartão</returns>
-        [HttpGet("{id}")]
-        public IActionResult GetByIdCartao(int id)
-        {
-            try
-            {
-                var cartao = _cartaoRepository.GetById(id);
-                if (cartao is null)
-                {
-                    return NotFound(new { msg = "Cartão não foi encontrado. Verifique se o Id está correto" });
-                }
-                return Ok(cartao);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(new
-                {
-                    msg = "Falha ao exibir o cartão",
-                    ex.InnerException.Message
-                });
-            }
-        }
-
-        /// <summary>
         /// Atualizar parte das informações do cartão
         /// </summary>
         /// <remarks>
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador e Cliente 
         /// 
         /// </remarks>
         /// <param name="id">Id do cartão</param>
@@ -139,6 +118,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o cartão foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente")]
         [HttpPatch("{id}")]
         public IActionResult PatchCartao(int id, [FromBody] JsonPatchDocument patchCartao)
         {
@@ -177,6 +157,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador e Cliente 
         /// 
         /// </remarks>
         /// <param name="id">Id do cartão</param>
@@ -184,6 +165,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o cartão foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente")]
         [HttpPut("{id}")]
         public IActionResult PutCartao(int id, Cartao cartao)
         {
@@ -221,13 +203,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///             Usuários:Administrador e Cliente 
         /// 
         /// </remarks>
         /// <param name="id">Id do cartão a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o cartão foi excluído ou se houve falha</returns>
-        //[Authorize(Roles = "Master")]
+        [Authorize(Roles = "Administrador, Cliente")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCartao(int id)
         {

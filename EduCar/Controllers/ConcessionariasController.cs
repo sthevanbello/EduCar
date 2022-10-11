@@ -27,12 +27,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Vendedor
         /// 
         /// </remarks>
         /// <param name="concessionaria">Concessionária a ser inserida</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma concessionária inserida ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpPost]
         public IActionResult InsertConcessionaria(Concessionaria concessionaria)
         {
@@ -58,11 +60,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de concessionárias</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllConcessionarias()
         {
@@ -89,12 +93,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da concessionárias</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma Concessionária</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdConcessionaria(int id)
         {
@@ -125,6 +131,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da concessionária</param>
@@ -132,6 +139,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se a concessionária foi alterada ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpPatch("{id}")]
         public IActionResult PatchConcessionaria(int id, [FromBody] JsonPatchDocument patchConcessionaria)
         {
@@ -170,6 +178,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da concessionária</param>
@@ -177,6 +186,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o concessionária foi alterada ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpPut("{id}")]
         public IActionResult PutConcessionaria(int id, Concessionaria concessionaria)
         {
@@ -214,13 +224,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///             Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da concessionária a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o concessionária foi excluída ou se houve falha</returns>
-        //[Authorize(Roles = "Master")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpDelete("{id}")]
         public IActionResult DeleteConcessionaria(int id)
         {
