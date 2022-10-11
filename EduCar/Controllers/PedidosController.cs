@@ -27,12 +27,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador e Cliente 
         /// 
         /// </remarks>
         /// <param name="pedido">Pedido a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um pedido inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador, Cliente")]
         [HttpPost]
         public IActionResult InsertPedido(Pedido pedido)
         {
@@ -67,11 +69,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -98,11 +102,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos de um usuário</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("Email")]
         public IActionResult GetPedidosByUsuario(string email)
         {
@@ -136,11 +142,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos de uma concessionária</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("Concessionaria/{id}")]
         public IActionResult GetPedidosByConcessionaria(int id)
         {
@@ -175,12 +183,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do pedido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um pedido</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdPedido(int id)
         {
@@ -204,134 +214,139 @@ namespace EduCar.Controllers
             }
         }
 
-        ///// <summary>
-        ///// Atualizar parte das informações do pedido
-        ///// </summary>
-        ///// <remarks>
-        ///// 
-        ///// Acesso permitido:
-        ///// 
-        ///// 
-        ///// </remarks>
-        ///// <param name="id">Id do pedido</param>
-        ///// <param name="patchPedido">informações a serem alteradas</param>
-        ///// <response code="401">Acesso negado</response>
-        ///// <response code="403">Nível de acesso não está autorizado</response>
-        ///// <returns>Retorna uma mensagem dizendo se o pedido foi alterado ou se houve algum erro</returns>
-        //[HttpPatch("{id}")]
-        //public IActionResult PatchPedido(int id, [FromBody] JsonPatchDocument patchPedido)
-        //{
-        //    try
-        //    {
-        //        if (patchPedido is null)
-        //        {
-        //            return BadRequest(new { msg = "Insira os dados novos" });
-        //        }
+        /// <summary>
+        /// Atualizar parte das informações do pedido
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        ///          Usuários: Administrador 
+        ///          
+        /// </remarks>
+        /// <param name="id">Id do pedido</param>
+        /// <param name="patchPedido">informações a serem alteradas</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna uma mensagem dizendo se o pedido foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador")]
+        [HttpPatch("{id}")]
+        public IActionResult PatchPedido(int id, [FromBody] JsonPatchDocument patchPedido)
+        {
+            try
+            {
+                if (patchPedido is null)
+                {
+                    return BadRequest(new { msg = "Insira os dados novos" });
+                }
 
-        //        var pedido = _pedidoRepository.GetById(id);
-        //        if (pedido is null)
-        //        {
-        //            return NotFound(new { msg = "Pedido não encontrado. Conferir o Id informado" });
-        //        }
+                var pedido = _pedidoRepository.GetById(id);
+                if (pedido is null)
+                {
+                    return NotFound(new { msg = "Pedido não encontrado. Conferir o Id informado" });
+                }
 
-        //        _pedidoRepository.Patch(patchPedido, pedido);
+                _pedidoRepository.Patch(patchPedido, pedido);
 
-        //        return Ok(new { msg = "Pedido alterado", pedido });
-        //    }
-        //    catch (Exception ex)
-        //    {
+                return Ok(new { msg = "Pedido alterado", pedido });
+            }
+            catch (Exception ex)
+            {
 
-        //        return BadRequest(new
-        //        {
-        //            msg = "Falha ao alterar o pedido",
-        //            ex.InnerException.Message
-        //        });
-        //    }
-        //}
+                return BadRequest(new
+                {
+                    msg = "Falha ao alterar o pedido",
+                    ex.InnerException.Message
+                });
+            }
+        }
 
-        ///// <summary>
-        ///// Alterar um pedido a partir do Id fornecido
-        ///// </summary>
-        ///// <remarks>
-        ///// 
-        ///// Acesso permitido:
-        ///// 
-        ///// 
-        ///// </remarks>
-        ///// <param name="id">Id do pedido</param>
-        ///// <param name="pedido">Dados atualizados</param>
-        ///// <response code="401">Acesso negado</response>
-        ///// <response code="403">Nível de acesso não está autorizado</response>
-        ///// <returns>Retorna uma mensagem dizendo se o pedido foi alterado ou se houve algum erro</returns>
-        //[HttpPut("{id}")]
-        //public IActionResult PutPedido(int id, Pedido pedido)
-        //{
-        //    try
-        //    {
-        //        if (id != pedido.Id)
-        //        {
-        //            return BadRequest(new { msg = "Os ids não são correspondentes" });
-        //        }
-        //        var pedidoRetorno = _pedidoRepository.GetById(id);
+        /// <summary>
+        /// Alterar um pedido a partir do Id fornecido
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        ///          Usuários: Administrador 
+        /// 
+        /// </remarks>
+        /// <param name="id">Id do pedido</param>
+        /// <param name="pedido">Dados atualizados</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna uma mensagem dizendo se o pedido foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador")]
+        [HttpPut("{id}")]
+        public IActionResult PutPedido(int id, Pedido pedido)
+        {
+            try
+            {
+                if (id != pedido.Id)
+                {
+                    return BadRequest(new { msg = "Os ids não são correspondentes" });
+                }
+                var pedidoRetorno = _pedidoRepository.GetById(id);
 
-        //        if (pedidoRetorno is null)
-        //        {
-        //            return NotFound(new { msg = "Pedido não encontrado. Conferir o Id informado" });
-        //        }
-                
-        //        _pedidoRepository.Put(pedido);
+                if (pedidoRetorno is null)
+                {
+                    return NotFound(new { msg = "Pedido não encontrado. Conferir o Id informado" });
+                }
 
-        //        return Ok(new { msg = "Pedido alterado", pedido });
-        //    }
-        //    catch (Exception ex)
-        //    {
+                _pedidoRepository.Put(pedido);
 
-        //        return BadRequest(new
-        //        {
-        //            msg = "Falha ao alterar o pedido",
-        //            ex.InnerException.Message
-        //        });
-        //    }
-        //}
-        ///// <summary>
-        ///// Excluir pedido do banco de dados
-        ///// </summary>
-        ///// <remarks>
-        ///// 
-        ///// Acesso permitido:
-        ///// 
-        ///// 
-        ///// </remarks>
-        ///// <param name="id">Id do pedido a ser excluído</param>
-        ///// <response code="401">Acesso negado</response>
-        ///// <response code="403">Nível de acesso não está autorizado</response>
-        ///// <returns>Retorna uma mensagem informando se o pedido foi excluído ou se houve falha</returns>
-        
-        //[HttpDelete("{id}")]
-        //public IActionResult DeletePedido(int id)
-        //{
-        //    try
-        //    {
-        //        var pedidoRetorno = _pedidoRepository.GetById(id);
+                return Ok(new { msg = "Pedido alterado", pedido });
+            }
+            catch (Exception ex)
+            {
 
-        //        if (pedidoRetorno is null)
-        //        {
-        //            return NotFound(new { msg = "Pedido não encontrado. Conferir o Id informado" });
-        //        }
+                return BadRequest(new
+                {
+                    msg = "Falha ao alterar o pedido",
+                    ex.InnerException.Message
+                });
+            }
+        }
+        /// <summary>
+        /// Excluir pedido do banco de dados
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        ///          Usuários: Administrador 
+        /// 
+        /// </remarks>
+        /// <param name="id">Id do pedido a ser excluído</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna uma mensagem informando se o pedido foi excluído ou se houve falha</returns>
+        [Authorize(Roles = "Administrador")]
+        [HttpDelete("{id}")]
+        public IActionResult DeletePedido(int id)
+        {
+            try
+            {
+                var pedidoRetorno = _pedidoRepository.GetById(id);
 
-        //        _pedidoRepository.Delete(pedidoRetorno);
+                if (pedidoRetorno is null)
+                {
+                    return NotFound(new { msg = "Pedido não encontrado. Conferir o Id informado" });
+                }
 
-        //        return Ok(new { msg = "Pedido excluído com sucesso" });
-        //    }
-        //    catch (Exception ex)
-        //    {
+                _pedidoRepository.Delete(pedidoRetorno);
 
-        //        return BadRequest(new
-        //        {
-        //            msg = "Falha ao excluir o pedido. Verifique se há utilização como Foreign Key.",
-        //            ex.InnerException.Message
-        //        });
-        //    }
-        //}
+                return Ok(new { msg = "Pedido excluído com sucesso" });
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    msg = "Falha ao excluir o pedido. Verifique se há utilização como Foreign Key.",
+                    ex.InnerException.Message
+                });
+            }
+        }
     }
 }

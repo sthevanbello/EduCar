@@ -11,5 +11,7 @@ namespace EduCar.Interfaces
         // Todos os métodos básicos estão na IBaseRepository
         public Veiculo GetPlaca(string placa);
         ICollection<Veiculo> GetStatusDisponivel();
+
+        public void DeleteAllDependencies(Veiculo veiculo);
     }
 }

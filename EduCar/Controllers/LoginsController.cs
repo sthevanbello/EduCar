@@ -23,8 +23,14 @@ namespace EduCar.Controllers
         /// </summary>
         /// <remarks>
         /// 
-        /// Acesso permitido:
+        ///     Insira o e-mail e a senha para realizar a autenticação da API
+        ///     
+        /// Exemplo: 
         /// 
+        ///     {
+        ///        "email": "email@email.com",
+        ///        "senha": "email123456"
+        ///     }
         /// 
         /// </remarks>
         /// <param name="login">Informações de login do usuário</param>

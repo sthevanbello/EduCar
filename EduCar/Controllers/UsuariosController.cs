@@ -11,6 +11,7 @@ namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
@@ -19,28 +20,29 @@ namespace EduCar.Controllers
         {
             _usuarioRepository = usuarioRepository;
         }
-
         /// <summary>
-        /// Inserir um usuário no banco.
+        /// Inserir um usuário administrador no banco.
         /// </summary>
         /// <remarks>
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador
         /// 
         /// </remarks>
-        /// <param name="usuario">Usuário a ser inserido</param>
+        /// <param name="usuario">Usuário administrador a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna um usuário inserido ou uma mensagem se houve alguma falha</returns>
-        [HttpPost]
-        public IActionResult InsertUsuario(Usuario usuario)
+        /// <returns>Retorna um usuário administrador inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador")]
+        [HttpPost("Administrador")]
+        public IActionResult InsertUsuarioAdministrador(Usuario usuario)
         {
             try
             {
                 // Criptografa a senha
                 usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-
+                usuario.TipoUsuario.Id = 1; // Força a inserção de um usuário do tipo Administrador
                 var usuarioInserido = _usuarioRepository.Insert(usuario);
                 return Ok(usuarioInserido);
             }
@@ -48,7 +50,78 @@ namespace EduCar.Controllers
             {
                 return BadRequest(new
                 {
-                    msg = "Falha ao inserir um usuário no banco",
+                    msg = "Falha ao inserir um usuário administrador no banco",
+                    ex.InnerException.Message
+                });
+            }
+        }
+        /// <summary>
+        /// Inserir um usuário cliente no banco.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
+        /// 
+        /// </remarks>
+        /// <param name="usuario">Usuário cliente a ser inserido</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna um usuário cliente inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [HttpPost("Cliente")]
+        public IActionResult InsertUsuarioCliente(Usuario usuario)
+        {
+            try
+            {
+                // Criptografa a senha
+                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+                usuario.TipoUsuario.Id = 2; // Força a inserção de um usuário do tipo cliente
+                var usuarioInserido = _usuarioRepository.Insert(usuario);
+                return Ok(usuarioInserido);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    msg = "Falha ao inserir um usuário cliente no banco",
+                    ex.InnerException.Message
+                });
+            }
+        }
+
+        /// <summary>
+        /// Inserir um usuário vendedor no banco.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        ///          Usuários: Administrador
+        /// 
+        /// </remarks>
+        /// <param name="usuario">Usuário vendedor a ser inserido</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna um usuário vendedor inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador")]
+        [HttpPost("Vendedor")]
+        public IActionResult InsertUsuarioVendedor(Usuario usuario)
+        {
+            try
+            {
+                // Criptografa a senha
+                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+                usuario.TipoUsuario.Id = 3; // Força a inserção de um usuário do tipo vendedor
+                var usuarioInserido = _usuarioRepository.Insert(usuario);
+                return Ok(usuarioInserido);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    msg = "Falha ao inserir um usuário vendedor no banco",
                     ex.InnerException.Message
                 });
             }
@@ -60,11 +133,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de usuários</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllUsuarios()
         {
@@ -91,12 +166,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um Usuário</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdUsuario(int id)
         {
@@ -127,6 +204,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário</param>
@@ -134,6 +212,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPatch("{id}")]
         public IActionResult PatchUsuario(int id, [FromBody] JsonPatchDocument patchUsuario)
         {
@@ -172,6 +251,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário</param>
@@ -179,6 +259,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPut("{id}")]
         public IActionResult PutUsuario(int id, Usuario usuario)
         {
@@ -218,13 +299,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///            Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do usuário a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o usuário foi excluído ou se houve falha</returns>
-        [Authorize(Roles = "Master")]
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpDelete("{id}")]
         public IActionResult DeleteUsuario(int id)
         {
