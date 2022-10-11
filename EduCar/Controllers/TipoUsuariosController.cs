@@ -1,4 +1,7 @@
 ﻿using EduCar.Interfaces;
+using EduCar.Models;
+using EduCar.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,7 +18,38 @@ namespace EduCar.Controllers
         {
             _tipoUsuarioRepository = tipoUsuarioRepository;
         }
-
+        /// <summary>
+        /// Inserir um Tipo de usuário no banco.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        ///          Usuários: Administrador 
+        /// 
+        /// </remarks>
+        /// <param name="tipoUsuario">Tipo de usuário a ser inserido</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna um usuário inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador")]
+        [HttpPost]
+        public IActionResult InsertTipoUsuario(TipoUsuario tipoUsuario)
+        {
+            try
+            {
+                var tipoUsuarioInserido = _tipoUsuarioRepository.Insert(tipoUsuario);
+                return Ok(tipoUsuarioInserido);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    msg = "Falha ao inserir um Tipo de usuário no banco",
+                    ex.InnerException.Message
+                });
+            }
+        }
         /// <summary>
         /// Exibir uma lista de Tipos de usuários cadastrados no sistema
         /// </summary>
@@ -23,11 +57,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de tipoUsuario ou se houve falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllTipoUsuario()
         {
@@ -54,12 +90,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <param name="id">Id do tipo de usuário</param>
         /// <returns>Retorna um tipoUsuario ou se houve falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdTipoUsuario(int id)
         {
@@ -77,6 +115,37 @@ namespace EduCar.Controllers
                 return BadRequest(new
                 {
                     msg = "Falha ao exibir o tipo de usuário",
+                    ex.InnerException.Message
+                });
+            }
+        }
+        /// <summary>
+        ///  Apenas para teste
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTipoUsuario(int id)
+        {
+            try
+            {
+                var usuarioRetorno = _tipoUsuarioRepository.GetById(id);
+
+                if (usuarioRetorno is null)
+                {
+                    return NotFound(new { msg = "Tipo Usuário não encontrado. Conferir o Id informado" });
+                }
+
+                _tipoUsuarioRepository.Delete(usuarioRetorno);
+
+                return Ok(new { msg = "Tipo Usuário excluído com sucesso" });
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    msg = "Falha ao excluir o tipo usuário. Verifique se há utilização como Foreign Key.",
                     ex.InnerException.Message
                 });
             }
