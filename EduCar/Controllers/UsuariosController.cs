@@ -38,6 +38,9 @@ namespace EduCar.Controllers
         {
             try
             {
+                // Criptografa a senha
+                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+
                 var usuarioInserido = _usuarioRepository.Insert(usuario);
                 return Ok(usuarioInserido);
             }
@@ -191,6 +194,8 @@ namespace EduCar.Controllers
                 {
                     return NotFound(new { msg = "Usuário não encontrado. Conferir o Id informado" });
                 }
+
+                // Criptografa a senha
                 usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
                 _usuarioRepository.Put(usuario);
 

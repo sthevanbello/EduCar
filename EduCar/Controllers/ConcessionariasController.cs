@@ -32,7 +32,7 @@ namespace EduCar.Controllers
         /// <param name="concessionaria">Concessionária a ser inserida</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma concessionária inserido ou uma mensagem se houve alguma falha</returns>
+        /// <returns>Retorna uma concessionária inserida ou uma mensagem se houve alguma falha</returns>
         [HttpPost]
         public IActionResult InsertConcessionaria(Concessionaria concessionaria)
         {
@@ -176,7 +176,7 @@ namespace EduCar.Controllers
         /// <param name="concessionaria">Dados atualizados</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma mensagem dizendo se o concessionária foi alterado ou se houve algum erro</returns>
+        /// <returns>Retorna uma mensagem dizendo se o concessionária foi alterada ou se houve algum erro</returns>
         [HttpPut("{id}")]
         public IActionResult PutConcessionaria(int id, Concessionaria concessionaria)
         {

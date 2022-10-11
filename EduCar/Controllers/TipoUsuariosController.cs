@@ -112,5 +112,31 @@ namespace EduCar.Controllers
                 });
             }
         }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTipoUsuario(int id)
+        {
+            try
+            {
+                var usuarioRetorno = _tipoUsuarioRepository.GetById(id);
+
+                if (usuarioRetorno is null)
+                {
+                    return NotFound(new { msg = "Tipo Usuário não encontrado. Conferir o Id informado" });
+                }
+
+                _tipoUsuarioRepository.Delete(usuarioRetorno);
+
+                return Ok(new { msg = "Tipo Usuário excluído com sucesso" });
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    msg = "Falha ao excluir o tipo usuário. Verifique se há utilização como Foreign Key.",
+                    ex.InnerException.Message
+                });
+            }
+        }
     }
 }

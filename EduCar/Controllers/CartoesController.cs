@@ -26,6 +26,12 @@ namespace EduCar.Controllers
         /// </summary>
         /// <remarks>
         /// 
+        /// Exemplo: 
+        /// 
+        ///     {
+        ///         exemplo        
+        ///     }
+        /// 
         /// Acesso permitido:
         /// 
         /// 
