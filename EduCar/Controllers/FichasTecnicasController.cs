@@ -73,7 +73,7 @@ namespace EduCar.Controllers
                 var fichaTecnica = _fichaTecnicaRepository.GetById(id);
                 if (fichaTecnica is null)
                 {
-                    return NotFound(new { msg = "Ficha técnica não foi encontrado. Verifique se o Id está correto" });
+                    return NotFound(new { msg = "Ficha técnica não foi encontrada. Verifique se o Id está correto" });
                 }
                 return Ok(fichaTecnica);
             }
@@ -89,7 +89,7 @@ namespace EduCar.Controllers
         }
 
         /// <summary>
-        /// Atualizar parte das informações da ficha tecnica
+        /// Atualizar parte das informações da ficha técnica
         /// </summary>
         /// <remarks>
         /// 
@@ -146,7 +146,7 @@ namespace EduCar.Controllers
         /// <param name="fichaTecnica">Dados atualizados</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma mensagem dizendo se a ficha técnica foi alterado ou se houve algum erro</returns>
+        /// <returns>Retorna uma mensagem dizendo se a ficha técnica foi alterada ou se houve algum erro</returns>
         [HttpPut("{id}")]
         public IActionResult PutFichaTecnica(int id, FichaTecnica fichaTecnica)
         {
@@ -190,7 +190,6 @@ namespace EduCar.Controllers
         ///// <response code="401">Acesso negado</response>
         ///// <response code="403">Nível de acesso não está autorizado</response>
         ///// <returns>Retorna uma mensagem informando se a ficha técnica foi excluído ou se houve falha</returns>
-        
         //[HttpDelete("{id}")]
         //public IActionResult DeleteFichaTecnica(int id)
         //{

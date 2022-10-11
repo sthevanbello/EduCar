@@ -15,6 +15,18 @@ namespace EduCar.Controllers
         {
             _cambioRepository = cambioRepository;
         }
+        /// <summary>
+        /// Exibir uma lista de tipos de câmbios existentes no sistema
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        /// 
+        /// </remarks>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna uma lista de tipos de câmbios</returns>
         [HttpGet]
         public IActionResult GetCambios()
         {
@@ -29,6 +41,19 @@ namespace EduCar.Controllers
                 return BadRequest(new { Msg = "Falha ao exibir a lista de cambios", ex.Message });
             }
         }
+        /// <summary>
+        /// Exibir um tipo de câmbio existente no sistema de acordo com o id fornecido
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        /// 
+        /// </remarks>
+        /// <param name="id">Id do câmbio contido no sistema</param>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna um tipo de câmbios</returns>
         [HttpGet("{id}")]
         public IActionResult GetByIdCambio(int id)
         {

@@ -29,5 +29,6 @@ namespace EduCar.Models
         [ForeignKey("Cartao")]
         public int IdCartao { get; set; }
         public Cartao Cartao { get; set; }
+        public bool SalvarCartaoNoBanco { get; set; }
     }
 }
