@@ -259,7 +259,7 @@ namespace EduCar.Controllers
                     return NotFound(new { msg = "Veículo não encontrado. Conferir o Id informado" });
                 }
 
-                _veiculoRepository.Delete(veiculoRetorno);
+                _veiculoRepository.DeleteAllDependencies(veiculoRetorno);
 
                 return Ok(new { msg = "Veículo excluído com sucesso" });
             }

@@ -45,5 +45,18 @@ namespace EduCar.Repositories
             return veiculos;
 
         }
+
+        public void DeleteAllDependencies(Veiculo veiculo)
+        {
+            _context.Veiculo.Remove(veiculo);
+
+            var fichaTecnica = veiculo.FichaTecnica;
+            _context.FichaTecnica.Remove(fichaTecnica);
+
+            var caracteristicasGerais = veiculo.CaracteristicasGerais;
+            _context.CaracteristicasGerais.Remove(caracteristicasGerais);
+
+            _context.SaveChanges();
+        }
     }
 }
