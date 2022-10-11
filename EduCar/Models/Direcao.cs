@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EduCar.Models
 {
@@ -10,6 +11,7 @@ namespace EduCar.Models
 
         [Required(ErrorMessage = "Tipo é obrigatório")]
         public string Tipo { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<FichaTecnica> FichasTecnicas { get; set; }
     }
 }

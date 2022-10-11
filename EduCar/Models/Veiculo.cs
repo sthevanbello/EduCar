@@ -12,8 +12,7 @@ namespace EduCar.Models
         public string Nome { get; set; }
         [Required(ErrorMessage = "Valor é obrigatório")]
         public double Valor { get; set; }
-        public string Imagem { get; set; }
-
+        
         [ForeignKey("StatusVenda")]   // foreign key/ chave estrangeira IdStatusVenda        
         public int IdStatusVenda { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -26,12 +25,10 @@ namespace EduCar.Models
 
         [ForeignKey("FichaTecnica")]   // foreign key/ chave estrangeira IdFichaTecnica        
         public int IdFichaTecnica { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public FichaTecnica FichaTecnica { get; set; }
 
         [ForeignKey("CaracteristicasGerais")]   // foreign key/ chave estrangeira IdFichaTecnica        
         public int IdCaracteristicasGerais { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public CaracteristicasGerais CaracteristicasGerais { get; set; }
 
 
