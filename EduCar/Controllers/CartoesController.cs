@@ -41,10 +41,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        /// 
         ///           Usuários: Administrador, Cliente e Vendedor
-        /// 
-        /// 
         /// 
         /// </remarks>
         /// <param name="cartao">Cartão a ser inserido</param>

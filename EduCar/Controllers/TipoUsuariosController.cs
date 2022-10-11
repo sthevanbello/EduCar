@@ -10,7 +10,6 @@ namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Administrador")]
     public class TipoUsuariosController : ControllerBase
     {
         private readonly ITipoUsuarioRepository _tipoUsuarioRepository;
@@ -26,12 +25,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador 
         /// 
         /// </remarks>
         /// <param name="tipoUsuario">Tipo de usuário a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um usuário inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public IActionResult InsertTipoUsuario(TipoUsuario tipoUsuario)
         {
@@ -118,6 +119,11 @@ namespace EduCar.Controllers
                 });
             }
         }
+        /// <summary>
+        ///  Apenas para teste
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult DeleteTipoUsuario(int id)
         {

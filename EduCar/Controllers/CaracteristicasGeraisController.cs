@@ -25,6 +25,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
@@ -56,6 +57,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id das características gerais dos veículos</param>
