@@ -21,7 +21,7 @@ namespace EduCar.Controllers
             _enderecoRepository = enderecoRepository;
         }
 
-        
+
         /// <summary>
         /// Exibir uma lista de endereços cadastrados no sistema
         /// </summary>
@@ -29,11 +29,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de Endereços</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllEnderecos()
         {
@@ -60,12 +62,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do endereço</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um Endereço</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdEndereco(int id)
         {
@@ -96,6 +100,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do endereço</param>
@@ -103,6 +108,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o endereço foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPatch("{id}")]
         public IActionResult PatchEndereco(int id, [FromBody] JsonPatchDocument patchEndereco)
         {
@@ -141,6 +147,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do endereço</param>
@@ -148,6 +155,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o endereço foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPut("{id}")]
         public IActionResult PutEndereco(int id, Endereco endereco)
         {
@@ -185,12 +193,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do endereço a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o endereço foi excluído ou se houve falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpDelete("{id}")]
         public IActionResult DeleteEndereco(int id)
         {

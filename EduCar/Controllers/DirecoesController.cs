@@ -1,4 +1,5 @@
 ﻿using EduCar.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,6 +8,7 @@ namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrador, Cliente, Vendedor")]
     public class DirecoesController : ControllerBase
     {
         private readonly IDirecaoRepository _direcaoRepository;
@@ -22,6 +24,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
@@ -49,6 +52,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da direção contida no sistema</param>

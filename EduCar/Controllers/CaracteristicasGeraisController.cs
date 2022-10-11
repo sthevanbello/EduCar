@@ -1,5 +1,6 @@
 ﻿using EduCar.Interfaces;
 using EduCar.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +9,7 @@ namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrador, Cliente, Vendedor")]
     public class CaracteristicasGeraisController : ControllerBase
     {
         private readonly ICaracteristicasGeraisRepository _caracteristicasGeraisRepository;

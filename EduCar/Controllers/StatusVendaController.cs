@@ -1,4 +1,5 @@
 ﻿using EduCar.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,11 +23,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de Status</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllStatus()
         {

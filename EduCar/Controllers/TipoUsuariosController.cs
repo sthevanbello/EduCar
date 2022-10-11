@@ -56,11 +56,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de tipoUsuario ou se houve falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllTipoUsuario()
         {
@@ -87,12 +89,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <param name="id">Id do tipo de usuário</param>
         /// <returns>Retorna um tipoUsuario ou se houve falha</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdTipoUsuario(int id)
         {
