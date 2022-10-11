@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace EduCar
@@ -44,12 +45,67 @@ namespace EduCar
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EduCar", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "EduCar", 
+                    Version = "v1" 
+                });
 
-                // Adiciona os comentários na documentação do Swagger
+                // Criação do botão 'Authorize' no Swagger, para colar o token no Bearer e verificá-lo
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = @"Enviar o token para autenticação com o formato de exemplo 'Bearer abcd1234'",
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new string[] {}
+                    }
+                });
+
+                // Adicionar configurações extras da documentação, para ler os XMLs
+                //Combinar informações, gerando o Assembly
                 var xmlArquivo = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlArquivo));
+
             });
+
+
+            // Configuração do JWT para a autenticação de token
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            })
+            .AddJwtBearer("JwtBearer", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("Api-consultas-key")),
+                    ClockSkew = TimeSpan.FromMinutes(30),
+                    ValidIssuer = "consultasMedicas.webAPI",
+                    ValidAudience = "consultasMedicas.webAPI"
+                };
+            });
+
 
             // Injeção de dependência do EduCarContext
             services.AddTransient<EduCarContext, EduCarContext>();
