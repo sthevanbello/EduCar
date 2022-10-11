@@ -21,37 +21,7 @@ namespace EduCar.Controllers
             _enderecoRepository = enderecoRepository;
         }
 
-        /// <summary>
-        /// Inserir um endereço no banco.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// Acesso permitido:
-        /// 
-        /// 
-        /// </remarks>
-        /// <param name="endereco">Endereço a ser inserido</param>
-        /// <response code="401">Acesso negado</response>
-        /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna um endereço inserido ou uma mensagem se houve alguma falha</returns>
-        [HttpPost]
-        public IActionResult InsertEndereco(Endereco endereco)
-        {
-            try
-            {
-                var enderecoInserido = _enderecoRepository.Insert(endereco);
-                return Ok(enderecoInserido);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    msg = "Falha ao inserir um endereço no banco",
-                    ex.InnerException.Message
-                });
-            }
-        }
-
+        
         /// <summary>
         /// Exibir uma lista de endereços cadastrados no sistema
         /// </summary>

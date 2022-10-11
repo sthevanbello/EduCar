@@ -20,7 +20,7 @@ namespace EduCar.Controllers
             _fichaTecnicaRepository = fichaTecnicaRepository;
         }
 
-        
+
         /// <summary>
         /// Exibir uma lista de fichas técnicas cadastrados no sistema
         /// </summary>
@@ -28,11 +28,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de fichas técnicas</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllFichasTecnicas()
         {
@@ -59,12 +61,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da ficha técnica</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma ficha técnica</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdFichaTecnica(int id)
         {
@@ -95,6 +99,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da ficha técnica</param>
@@ -102,6 +107,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se a ficha técnica foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpPatch("{id}")]
         public IActionResult PatchFichaTecnica(int id, [FromBody] JsonPatchDocument patchFichaTecnica)
         {
@@ -140,6 +146,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///           Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id da ficha técnica</param>
@@ -147,6 +154,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se a ficha técnica foi alterada ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpPut("{id}")]
         public IActionResult PutFichaTecnica(int id, FichaTecnica fichaTecnica)
         {
@@ -184,12 +192,14 @@ namespace EduCar.Controllers
         ///// 
         ///// Acesso permitido:
         ///// 
+        /////       Usuários: Administrador e Vendedor
         ///// 
         ///// </remarks>
         ///// <param name="id">Id da ficha técnica a ser excluído</param>
         ///// <response code="401">Acesso negado</response>
         ///// <response code="403">Nível de acesso não está autorizado</response>
         ///// <returns>Retorna uma mensagem informando se a ficha técnica foi excluído ou se houve falha</returns>
+        //[Authorize(Roles = "Administrador, Vendedor")]
         //[HttpDelete("{id}")]
         //public IActionResult DeleteFichaTecnica(int id)
         //{

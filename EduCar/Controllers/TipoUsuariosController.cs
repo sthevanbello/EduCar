@@ -1,6 +1,7 @@
 ﻿using EduCar.Interfaces;
 using EduCar.Models;
 using EduCar.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrador")]
     public class TipoUsuariosController : ControllerBase
     {
         private readonly ITipoUsuarioRepository _tipoUsuarioRepository;

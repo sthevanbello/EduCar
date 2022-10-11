@@ -90,42 +90,6 @@ namespace EduCar.Controllers
         }
 
         /// <summary>
-        /// Exibir um cartão a partir do Id fornecido
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// Acesso permitido:
-        /// 
-        /// 
-        /// </remarks>
-        /// <param name="id">Id do cartão</param>
-        /// <response code="401">Acesso negado</response>
-        /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna um Cartão</returns>
-        [HttpGet("{id}")]
-        public IActionResult GetByIdCartao(int id)
-        {
-            try
-            {
-                var cartao = _cartaoRepository.GetById(id);
-                if (cartao is null)
-                {
-                    return NotFound(new { msg = "Cartão não foi encontrado. Verifique se o Id está correto" });
-                }
-                return Ok(cartao);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(new
-                {
-                    msg = "Falha ao exibir o cartão",
-                    ex.InnerException.Message
-                });
-            }
-        }
-
-        /// <summary>
         /// Atualizar parte das informações do cartão
         /// </summary>
         /// <remarks>

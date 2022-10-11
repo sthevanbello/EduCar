@@ -1,10 +1,12 @@
 ﻿using EduCar.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace EduCar.Controllers
 {
+    [Authorize(Roles = "Administrador, Cliente, Vendedor")]
     [Route("api/[controller]")]
     [ApiController]
     public class CambiosController : ControllerBase
@@ -22,11 +24,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna uma lista de tipos de câmbios</returns>
+        /// <returns>Retorna uma lista de tipos de câmbios</returns>        
+
         [HttpGet]
         public IActionResult GetCambios()
         {
@@ -48,6 +52,8 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do câmbio contido no sistema</param>

@@ -1,5 +1,6 @@
 ﻿using EduCar.Interfaces;
 using EduCar.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -25,12 +26,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="veiculo">Veículo a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um veículo inserido ou uma mensagem se houve alguma falha</returns>
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpPost]
         public IActionResult InsertVeiculo(Veiculo veiculo)
         {
@@ -56,11 +59,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de Veículos</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllVeiculos()
         {
@@ -87,12 +92,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do veículo</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um Veículo</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("{id}")]
         public IActionResult GetByIdVeiculo(int id)
         {
@@ -124,11 +131,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de placas</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("Placa")]
         public IActionResult GetLicensePlates(string placa)
         {
@@ -164,11 +173,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///          Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de veículos disponíveis</returns>
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("Status")]
         public IActionResult GetAvailableVehicles()
         {
@@ -196,6 +207,7 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do veículo</param>
@@ -203,6 +215,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o veículo foi alterado ou se houve algum erro</returns>
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpPut("{id}")]
         public IActionResult PutVeiculo(int id, Veiculo veiculo)
         {
@@ -240,13 +253,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
+        ///         Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <param name="id">Id do veículo a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o veículo foi excluído ou se houve falha</returns>
-        //[Authorize(Roles = "Master")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpDelete("{id}")]
         public IActionResult DeleteVeiculo(int id)
         {
