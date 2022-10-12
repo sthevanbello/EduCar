@@ -21,19 +21,21 @@ namespace EduCar.Repositories
 
         public Pedido InsertPedidoVenda(Pedido pedido)
         {
-            if (pedido.Veiculo.StatusVenda.Id == 2)
+            var veiculo = _context.Veiculo
+                .FirstOrDefault(v => v.Id == pedido.IdVeiculo);
+            
+            if (veiculo.IdStatusVenda == 2)
             {
                 return null;
             }
-
-            //pedido.SalvarCartaoNoBanco = false;
 
             if (!pedido.SalvarCartaoNoBanco)
             {
                 pedido.Cartao = null;
             }
+            veiculo.IdStatusVenda = 2;
 
-            pedido.Veiculo.StatusVenda.Id = 2;
+            _context.Veiculo.Update(veiculo);
 
             var retorno = _context.Pedido.Add(pedido);
 
@@ -87,5 +89,14 @@ namespace EduCar.Repositories
             return pedidos;
         }
 
+        public ICollection<Pedido> GetPedidosCompletos()
+        {
+            var pedidos = _context.Pedido
+                  .Include(u => u.Usuario)
+                  .Include(c => c.Concessionaria)
+                  .Include(v => v.Veiculo)
+                  .ToList();
+            return pedidos;
+        }
     }
 }

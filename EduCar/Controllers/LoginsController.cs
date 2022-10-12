@@ -27,9 +27,25 @@ namespace EduCar.Controllers
         ///     
         /// Exemplo: 
         /// 
+        /// Cliente:
+        /// 
         ///     {
-        ///        "email": "email@email.com",
-        ///        "senha": "email123456"
+        ///        "email": "luigi@email.com",
+        ///        "senha": "123456789"
+        ///     }
+        ///     
+        /// Vendedor:
+        /// 
+        ///     {
+        ///        "email": "carrosystem@email.com",
+        ///        "senha": "123456789"
+        ///     }
+        ///     
+        /// Administrador:
+        /// 
+        ///     {
+        ///        "email": "fernanda@email.com",
+        ///        "senha": "123456789"
         ///     }
         /// 
         /// </remarks>
