@@ -48,7 +48,7 @@ INSERT INTO Concessionaria (Nome, Telefone, Site, IdEndereco) VALUES
 GO
 
 INSERT INTO Usuario (Nome, Sobrenome, CPF_CNPJ, Celular, Email, Senha, Aceite, IdEndereço, IdTipoUsuario) VALUES 
-('Marge','Simpson','87738061022','12977777777','maria@email.com','$2b$10$FAzuQ8WXh3JmMmItpyGK5.hU0LARaADkICGXye9H8luEAwkGd7tbG', 1, 6, 1), -- 123456789
+('Marge','Simpson','87738061022','12977777777','marge@email.com','$2b$10$FAzuQ8WXh3JmMmItpyGK5.hU0LARaADkICGXye9H8luEAwkGd7tbG', 1, 6, 1), -- 123456789
 ('Luigi','Mario','69197904082','71988888888','luigi@email.com','$2b$10$Q1yG6YNw8nfyALeBwAg8KeSYlPXBhoTu/Zziz4Js6VpSgpB8Vixa2', 1, 3, 1), -- 123456789
 ('Carro','System','81932668000179','11966666666','carrosystem@email.com','$2b$10$AQxvdFoyVuYUhga5afOYLumsHF2j1qvSuwHD1fC9.y9QA6DM5G88O', 1, 1, 2), -- 123456789
 ('Fernanda','Carvalho','64939033007','11999999999','fernanda@email.com','$2b$10$tlQAKmK4RDSHjBpzMPDi4.WIjDC.CmeEBzq5457CXHcvRa.Hf5p9e', 1, 7, 3); --  123456789
