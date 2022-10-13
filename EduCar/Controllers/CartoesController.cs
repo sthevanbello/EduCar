@@ -41,14 +41,14 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///           Usuários: Administrador, Cliente e Vendedor
+        ///           Usuários: Administrador e Cliente
         /// 
         /// </remarks>
         /// <param name="cartao">Cartão a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um cartão inserido ou uma mensagem se houve alguma falha</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [Authorize(Roles = "Administrador, Cliente")]
         [HttpPost]
         public IActionResult InsertCartao(Cartao cartao)
         {
@@ -74,19 +74,52 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///           Usuários: Administrador, Cliente e Vendedor
+        ///           Usuários: Administrador
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de cartões</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public IActionResult GetAllCartoes()
         {
             try
             {
                 var cartoes = _cartaoRepository.GetAll();
+                return Ok(cartoes);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new
+                {
+                    msg = "Falha ao listar os cartões",
+                    ex.InnerException.Message
+                });
+            }
+        }
+
+        /// <summary>
+        /// Exibir um cartão cadastrados no sistema de acordo com o id fornecido
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Acesso permitido:
+        /// 
+        ///           Usuários: Administrador e Cliente
+        /// 
+        /// </remarks>
+        /// <response code="401">Acesso negado</response>
+        /// <response code="403">Nível de acesso não está autorizado</response>
+        /// <returns>Retorna um cartão cadastrados no sistema de acordo com o id fornecido</returns>
+        [Authorize(Roles = "Administrador, Cliente")]
+        [HttpGet("{id}")]
+        public IActionResult GetByIdCartao(int id)
+        {
+            try
+            {
+                var cartoes = _cartaoRepository.GetById(id);
                 return Ok(cartoes);
             }
             catch (Exception ex)
