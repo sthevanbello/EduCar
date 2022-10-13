@@ -20,10 +20,10 @@ namespace EduCar.Repositories
         }
 
         /// <summary>
-        /// Realiza pedido definindo o veículo comprado para indisponível após a compra
+        ///Verifica o status de venda do pedido após ele ser criado, ele se torna indisponível
+        ///<returns>Retorna o pedido criado e com status indisponível</returns>
         /// </summary>
-        /// <param name="pedido">Pedido realizado</param>
-        /// <returns>Pedido</returns>
+
         public Pedido InsertPedidoVenda(Pedido pedido)
         {
             var veiculo = _context.Veiculo
@@ -46,10 +46,10 @@ namespace EduCar.Repositories
         }
 
         /// <summary>
-        /// Lista todos os pedidos de um usuário
+        ///Exibe as informações do usuário do pedido informado
+        ///<returns>Retorna uma lista das informações do usuário do pedido selecionado</returns>
         /// </summary>
-        /// <param name="email">Email do usuário</param>
-        /// <returns>Lista de pedidos</returns>
+
         public ICollection<Pedido> GetPedidosByUsuario(string email)
         {
             var usuario = _context.Usuario.FirstOrDefault(u => u.Email == email);
@@ -77,10 +77,10 @@ namespace EduCar.Repositories
         }
 
         /// <summary>
-        /// Lista os pedidos realizados em uma concessionária
+        ///Exibe a concessionária do pedido informado
+        ///<returns>Retorna uma lista de pedidos com as concessionarias incluídas</returns>
         /// </summary>
-        /// <param name="id">Id da concessionária</param>
-        /// <returns>Lista de pedidos</returns>
+
         public ICollection<Pedido> GetPedidosByConcessionaria(int id)
         {
             var concessionaria = _context.Concessionaria.FirstOrDefault(i => i.Id == id);
@@ -101,9 +101,14 @@ namespace EduCar.Repositories
         }
 
         /// <summary>
+        ///Exibe todas as informações do veículo informado
+        ///<returns>Retorna uma lista de pedidos com suas respectivas concessionárias</returns>
+        /// </summary>
+
         /// Lista todos os pedidos com todas as suas informações
         /// </summary>
         /// <returns>Lista de pedidos</returns>
+
         public ICollection<Pedido> GetPedidosCompletos()
         {
             var pedidos = _context.Pedido
