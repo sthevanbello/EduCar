@@ -29,10 +29,6 @@ namespace EduCar.Repositories
                 return null;
             }
 
-            if (!pedido.SalvarCartaoNoBanco)
-            {
-                pedido.Cartao = null;
-            }
             veiculo.IdStatusVenda = 2;
 
             _context.Veiculo.Update(veiculo);
