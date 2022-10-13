@@ -23,6 +23,7 @@ namespace EduCar.Repositories
         ///Verifica o status de venda do pedido após ele ser criado, ele se torna indisponível
         ///<returns>Retorna o pedido criado e com status indisponível</returns>
         /// </summary>
+
         public Pedido InsertPedidoVenda(Pedido pedido)
         {
             var veiculo = _context.Veiculo
@@ -48,6 +49,7 @@ namespace EduCar.Repositories
         ///Exibe as informações do usuário do pedido informado
         ///<returns>Retorna uma lista das informações do usuário do pedido selecionado</returns>
         /// </summary>
+
         public ICollection<Pedido> GetPedidosByUsuario(string email)
         {
             var usuario = _context.Usuario.FirstOrDefault(u => u.Email == email);
@@ -78,6 +80,7 @@ namespace EduCar.Repositories
         ///Exibe a concessionária do pedido informado
         ///<returns>Retorna uma lista de pedidos com as concessionarias incluídas</returns>
         /// </summary>
+
         public ICollection<Pedido> GetPedidosByConcessionaria(int id)
         {
             var concessionaria = _context.Concessionaria.FirstOrDefault(i => i.Id == id);
@@ -101,6 +104,11 @@ namespace EduCar.Repositories
         ///Exibe todas as informações do veículo informado
         ///<returns>Retorna uma lista de pedidos com suas respectivas concessionárias</returns>
         /// </summary>
+
+        /// Lista todos os pedidos com todas as suas informações
+        /// </summary>
+        /// <returns>Lista de pedidos</returns>
+
         public ICollection<Pedido> GetPedidosCompletos()
         {
             var pedidos = _context.Pedido
