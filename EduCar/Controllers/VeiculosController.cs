@@ -59,19 +59,19 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///          Usuários: Administrador, Cliente e Vendedor
+        ///          Usuários: Administrador, Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de Veículos</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpGet]
         public IActionResult GetAllVeiculos()
         {
             try
             {
-                var veiculos = _veiculoRepository.GetAll();
+                var veiculos = _veiculoRepository.GetAllVeiculosCompletos();
                 return Ok(veiculos);
             }
             catch (Exception ex)
@@ -166,7 +166,7 @@ namespace EduCar.Controllers
             }
         }
 
-        // <summary>
+        /// <summary>
         /// Exibir uma lista de veículos apenas disponíveis cadastrados no sistema
         /// </summary>
         /// <remarks>
@@ -180,7 +180,7 @@ namespace EduCar.Controllers
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de veículos disponíveis</returns>
         [Authorize(Roles = "Administrador, Cliente, Vendedor")]
-        [HttpGet("Status")]
+        [HttpGet("Status/Disponivel")]
         public IActionResult GetAvailableVehicles()
         {
             try
