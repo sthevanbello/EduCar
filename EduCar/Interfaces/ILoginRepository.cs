@@ -8,5 +8,7 @@ namespace EduCar.Interfaces
     public interface ILoginRepository
     {
         public string Logar(Login login);
+        public object SolicitarTokenSenha(string email);
+        public object TrocarSenha(string token, string senhaNova);
     }
 }

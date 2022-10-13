@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System;
+using System.Linq;
 
 namespace EduCar.Controllers
 {
@@ -69,19 +70,19 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///           Usuários: Administrador, Cliente e Vendedor
+        ///           Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAllPedidos()
         {
             try
             {
-                var pedidosUsuario = _pedidoRepository.GetAll();
+                var pedidosUsuario = _pedidoRepository.GetPedidosCompletos();
                 return Ok(pedidosUsuario);
             }
             catch (Exception ex)
@@ -110,7 +111,7 @@ namespace EduCar.Controllers
         /// <returns>Retorna uma lista de pedidos de um usuário</returns>
         [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet("Email")]
-        public IActionResult GetPedidosByUsuario(string email)
+        public IActionResult GetPedidosByEmailUsuario(string email)
         {
             try
             {
@@ -148,7 +149,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos de uma concessionária</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpGet("Concessionaria/{id}")]
         public IActionResult GetPedidosByConcessionaria(int id)
         {
@@ -196,7 +197,7 @@ namespace EduCar.Controllers
         {
             try
             {
-                var pedido = _pedidoRepository.GetById(id);
+                var pedido = _pedidoRepository.GetPedidosCompletos().FirstOrDefault(p => p.Id == id);
                 if (pedido is null)
                 {
                     return NotFound(new { msg = "Pedido não foi encontrado. Verifique se o Id está correto" });

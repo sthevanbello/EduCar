@@ -7,10 +7,10 @@ namespace EduCar.Models
 {
     public class Login
     {
-        [Required(ErrorMessage = "Email é obrigatório")]
+        [Required(ErrorMessage = "Email é obrigatório"), EmailAddress(ErrorMessage = "O formato do e-mail é inválido")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Senha é obrigatória")]
+        [Required(ErrorMessage = "A senha é obrigatória")]
         public string Senha { get; set; }
     }
 }
