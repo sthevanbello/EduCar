@@ -19,6 +19,10 @@ namespace EduCar.Repositories
             _context = context;
         }
 
+        /// <summary>
+        ///Exibe as concessionarias com seus respectivos endereços
+        ///<returns>Retorna uma lista das concessionarias com seus endereços</returns>
+        /// </summary>
         public ICollection<Concessionaria> GetAllConcessionariaComEndereco()
         {
             var concessionariaComEndereco = _context.Concessionaria

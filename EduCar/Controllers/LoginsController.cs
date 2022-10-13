@@ -111,10 +111,10 @@ namespace EduCar.Controllers
             }
         }
         /// <summary>
-        /// 
+        /// Efetuar a troca da senha a partir de um token recebido por e-mail
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="senhaNova"></param>
+        /// <param name="token">Token recebido por e-mail</param>
+        /// <param name="senhaNova">Senha nova a ser atualizada</param>
         /// <returns>Retorna uma mensagem de sucesso ou de falha ao solicitar a troca da senha</returns>
         [HttpPost("Senha/Trocar")]
         public IActionResult TrocarSenha(string token, string senhaNova )
