@@ -134,13 +134,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///           Usuários: Administrador, Cliente e Vendedor
+        ///           Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de usuários</returns>
-        //[Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpGet]
         public IActionResult GetAllUsuarios()
         {
