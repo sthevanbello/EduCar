@@ -19,6 +19,11 @@ namespace EduCar.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Realiza pedido definindo o veículo comprado para indisponível após a compra
+        /// </summary>
+        /// <param name="pedido">Pedido realizado</param>
+        /// <returns>Pedido</returns>
         public Pedido InsertPedidoVenda(Pedido pedido)
         {
             var veiculo = _context.Veiculo
@@ -40,6 +45,11 @@ namespace EduCar.Repositories
             return retorno.Entity;
         }
 
+        /// <summary>
+        /// Lista todos os pedidos de um usuário
+        /// </summary>
+        /// <param name="email">Email do usuário</param>
+        /// <returns>Lista de pedidos</returns>
         public ICollection<Pedido> GetPedidosByUsuario(string email)
         {
             var usuario = _context.Usuario.FirstOrDefault(u => u.Email == email);
@@ -66,6 +76,11 @@ namespace EduCar.Repositories
             return pedidos;
         }
 
+        /// <summary>
+        /// Lista os pedidos realizados em uma concessionária
+        /// </summary>
+        /// <param name="id">Id da concessionária</param>
+        /// <returns>Lista de pedidos</returns>
         public ICollection<Pedido> GetPedidosByConcessionaria(int id)
         {
             var concessionaria = _context.Concessionaria.FirstOrDefault(i => i.Id == id);
@@ -85,6 +100,10 @@ namespace EduCar.Repositories
             return pedidos;
         }
 
+        /// <summary>
+        /// Lista todos os pedidos com todas as suas informações
+        /// </summary>
+        /// <returns>Lista de pedidos</returns>
         public ICollection<Pedido> GetPedidosCompletos()
         {
             var pedidos = _context.Pedido
