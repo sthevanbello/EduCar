@@ -27,9 +27,25 @@ namespace EduCar.Controllers
         ///     
         /// Exemplo: 
         /// 
+        /// Cliente:
+        /// 
         ///     {
-        ///        "email": "email@email.com",
-        ///        "senha": "email123456"
+        ///        "email": "luigi@email.com",
+        ///        "senha": "123456789"
+        ///     }
+        ///     
+        /// Vendedor:
+        /// 
+        ///     {
+        ///        "email": "carrosystem@email.com",
+        ///        "senha": "123456789"
+        ///     }
+        ///     
+        /// Administrador:
+        /// 
+        ///     {
+        ///        "email": "fernanda@email.com",
+        ///        "senha": "123456789"
         ///     }
         /// 
         /// </remarks>
@@ -37,7 +53,7 @@ namespace EduCar.Controllers
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um token de acesso ou uma mensagem se houve alguma falha</returns>
-        [HttpPost]
+        [HttpPost("Token")]
         public IActionResult Logar(Login login)
         {
             try
@@ -59,6 +75,69 @@ namespace EduCar.Controllers
                 return BadRequest(new
                 {
                     msg = "Falha ao realizar o login",
+                    ex.InnerException.Message
+                });
+            }
+        }
+        /// <summary>
+        /// Solicitar um token para recuperação de senha
+        /// </summary>
+        /// <param name="email">E-mail cadastrado no sistema</param>
+        /// <returns>Retorna uma mensagem de sucesso ou de falha ao solicitar a recuperação de senha </returns>
+        [HttpPost("Senha/Esquecimento")]
+        public IActionResult SolicitarTokenDeTrocaDeSenha(string email)
+        {
+            try
+            {
+                var retorno = _loginRepository.SolicitarTokenSenha(email);
+
+                if (retorno is null)
+                {
+                    return BadRequest(new
+                    {
+                        msg = "O e-mail fornecido não foi encontrado"
+                    });
+                }
+
+                return Ok(retorno);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    msg = "Falha ao solicitar a recuperação de senha",
+                    ex.InnerException.Message
+                });
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="senhaNova"></param>
+        /// <returns>Retorna uma mensagem de sucesso ou de falha ao solicitar a troca da senha</returns>
+        [HttpPost("Senha/Trocar")]
+        public IActionResult TrocarSenha(string token, string senhaNova )
+        {
+            try
+            {
+                var retorno = _loginRepository.TrocarSenha(token, senhaNova);
+
+                if (retorno is null)
+                {
+                    return BadRequest(new
+                    {
+                        msg = "Não foi possível trocar a senha, verifique se o token está correto"
+                    });
+                }
+
+                return Ok(retorno);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    msg = "Falha ao realizar a troca da senha",
                     ex.InnerException.Message
                 });
             }

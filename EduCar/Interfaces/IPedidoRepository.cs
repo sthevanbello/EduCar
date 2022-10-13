@@ -14,5 +14,6 @@ namespace EduCar.Interfaces
         public ICollection<Pedido> GetPedidosByUsuario(string email);
 
         public ICollection<Pedido> GetPedidosByConcessionaria(int id);
+        public ICollection<Pedido> GetPedidosCompletos();
     }
 }
