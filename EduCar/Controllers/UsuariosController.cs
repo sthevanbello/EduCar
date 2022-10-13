@@ -43,7 +43,7 @@ namespace EduCar.Controllers
             {
                 // Criptografa a senha
                 usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                usuario.TipoUsuario.Id = 1; // Força a inserção de um usuário do tipo cliente
+                usuario.IdTipoUsuario = 1; // Força a inserção de um usuário do tipo cliente
                 var usuarioInserido = _usuarioRepository.Insert(usuario);
                 return Ok(usuarioInserido);
             }
@@ -79,7 +79,7 @@ namespace EduCar.Controllers
             {
                 // Criptografa a senha
                 usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                usuario.TipoUsuario.Id = 2; // Força a inserção de um usuário do tipo vendedor
+                usuario.IdTipoUsuario = 2; // Força a inserção de um usuário do tipo vendedor
                 var usuarioInserido = _usuarioRepository.Insert(usuario);
                 return Ok(usuarioInserido);
             }
@@ -114,7 +114,7 @@ namespace EduCar.Controllers
             {
                 // Criptografa a senha
                 usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                usuario.TipoUsuario.Id = 3; // Força a inserção de um usuário do tipo Administrador
+                usuario.IdTipoUsuario = 3; // Força a inserção de um usuário do tipo Administrador
                 var usuarioInserido = _usuarioRepository.Insert(usuario);
                 return Ok(usuarioInserido);
             }
@@ -134,13 +134,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///           Usuários: Administrador, Cliente e Vendedor
+        ///           Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de usuários</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [HttpGet]
         public IActionResult GetAllUsuarios()
         {

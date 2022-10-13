@@ -39,7 +39,7 @@ namespace EduCar.Repositories
                 .Include(con => con.Concessionaria)
                 .Include(f => f.FichaTecnica)
                 .Include(c => c.CaracteristicasGerais)
-                .Where(s => s.StatusVenda.Status == "Disponivel")
+                .Where(s => s.StatusVenda.Status == "Disponível")
                 .ToList();
 
             return veiculos;
@@ -57,6 +57,17 @@ namespace EduCar.Repositories
             _context.CaracteristicasGerais.Remove(caracteristicasGerais);
 
             _context.SaveChanges();
+        }
+
+        public ICollection<Veiculo> GetAllVeiculosCompletos()
+        {
+            var veiculoCompleto = _context.Veiculo
+                                .Include(f => f.FichaTecnica)
+                                .Include(c => c.CaracteristicasGerais)
+                                .Include(con => con.Concessionaria)
+                                .Include(s => s.StatusVenda)
+                                .ToList();
+                return veiculoCompleto;
         }
     }
 }

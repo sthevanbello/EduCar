@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System;
+using System.Linq;
 
 namespace EduCar.Controllers
 {
@@ -72,7 +73,7 @@ namespace EduCar.Controllers
         {
             try
             {
-                var concessionarias = _concessionariaRepository.GetAll();
+                var concessionarias = _concessionariaRepository.GetAllConcessionariaComEndereco();
                 return Ok(concessionarias);
             }
             catch (Exception ex)
@@ -106,7 +107,7 @@ namespace EduCar.Controllers
         {
             try
             {
-                var concessionaria = _concessionariaRepository.GetById(id);
+                var concessionaria = _concessionariaRepository.GetAllConcessionariaComEndereco().FirstOrDefault(c => c.Id == id);
                 if (concessionaria is null)
                 {
                     return NotFound(new { msg = "Concessionária não foi encontrada. Verifique se o Id está correto" });
