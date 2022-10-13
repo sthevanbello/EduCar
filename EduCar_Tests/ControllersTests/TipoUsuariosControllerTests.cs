@@ -11,17 +11,16 @@ using Xunit;
 
 namespace EduCar_Tests.ControllersTests
 {
-    public class CaracteristicasGeraisControllerTests
+    public class TipoUsuariosControllerTests
     {
-
         // Preparação  
-        private readonly Mock<ICaracteristicasGeraisRepository> _mock; // A função Mock cria um repositório "fake" para usá-lo no controller
-        private readonly CaracteristicasGeraisController _ctl;
+        private readonly Mock<ITipoUsuarioRepository> _mock; // A função Mock cria um repositório "fake" para usá-lo no controller
+        private readonly TipoUsuariosController _ctl;
 
-        public CaracteristicasGeraisControllerTests()  // Gerando um método construtor
+        public TipoUsuariosControllerTests()  // Gerando um método construtor
         {
-            _mock = new Mock<ICaracteristicasGeraisRepository>();
-            _ctl = new CaracteristicasGeraisController(_mock.Object);
+            _mock = new Mock<ITipoUsuarioRepository>();
+            _ctl = new TipoUsuariosController(_mock.Object);
         }
         /// <summary>
         /// Esse teste precisa retornar o método com um resultado = Ok
@@ -31,7 +30,7 @@ namespace EduCar_Tests.ControllersTests
         {
 
             // Execução
-            var result = _ctl.GetAllCaracteristicasGerais(); // Ele busca o método GET criado no Controller verdadeiro
+            var result = _ctl.GetAllTipoUsuario(); // Ele busca o método GET criado no Controller verdadeiro
             // Retorno
             Assert.IsType<OkObjectResult>(result);
         }
@@ -42,7 +41,7 @@ namespace EduCar_Tests.ControllersTests
         public void TestStatusCodeGetSuccess()
         {
             // Execução - Act
-            var actionResult = _ctl.GetAllCaracteristicasGerais();
+            var actionResult = _ctl.GetAllTipoUsuario();
             var result = actionResult as OkObjectResult;
             // Retorno
             Assert.Equal(200, result.StatusCode); // Status Code 200
@@ -55,7 +54,7 @@ namespace EduCar_Tests.ControllersTests
         public void TestActionResultBuscaNotNull()
         {
             // Execução 
-            var actionResult = _ctl.GetAllCaracteristicasGerais();
+            var actionResult = _ctl.GetAllTipoUsuario();
             // Retorno
             Assert.NotNull(actionResult);
         }
