@@ -98,11 +98,11 @@ namespace EduCar.Repositories
             var token = BCrypt.Net.BCrypt.HashPassword(usuario.CPF_CNPJ);
 
             var tokenEmail = Utilidade.GerarToken(token);
+
             var connectionString = _configuration.GetConnectionString("Email");
+            var remetente = _configuration.GetValue<string>("EnderecoEmail:remetente");
             var emailClient = new EmailClient(connectionString);
-            var subject = "E-mail de recuperação de senha da API EduCar";
-            var emailContent = Utilidade.GerarEmail(subject, tokenEmail);
-            var remetente = "EduCar@be74554c-2e0d-42ac-8197-4b7f23cfbed1.azurecomm.net";
+            var emailContent = Utilidade.GerarEmail(tokenEmail);
             var destinatarios = Utilidade.SelecionarDestinatarios(usuarioEmail);
             EmailRecipients emailRecipients = new EmailRecipients(destinatarios);
             EmailMessage emailMensagem = new EmailMessage(remetente, emailContent, emailRecipients);

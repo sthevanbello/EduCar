@@ -27,13 +27,12 @@ namespace EduCar.Utils
         /// <summary>
         /// Gerar o html do e-mail para enviar o token
         /// </summary>
-        /// <param name="subject">Assunto do e-mail</param>
         /// <param name="tokenEmail">Token completo</param>
         /// <returns>Retorna o e-mail completo em html</returns>
-        public static EmailContent GerarEmail(string subject, string tokenEmail)
+        public static EmailContent GerarEmail(string tokenEmail)
         {
-            var email = new EmailContent(subject)
-
+            var assunto = "E-mail de recuperação de senha EduCar";
+            var email = new EmailContent(assunto)
             {
                 Html = @$"<html>
                             <body>
@@ -59,6 +58,7 @@ namespace EduCar.Utils
             {
                 //new ("fdsampaio@yahoo.com.br"),
                 //new ("pah.souza06@gmail.com"),
+                //new ("betania.ofranca@gmail.com"),
                 //new ("roberta_fao@hotmail.com"),
                 //new ("renildo.fagner@gmail.com"),
                 new ("sthevan.alves@gmail.com"),

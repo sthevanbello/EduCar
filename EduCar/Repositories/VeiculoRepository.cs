@@ -18,8 +18,11 @@ namespace EduCar.Repositories
         {
             _context = context;
         }
-        
 
+        /// <summary>
+        /// Exibe uma lista de placas dos veículos selecionados
+        /// <returns>Retorna uma lista de placas relacionadas com os veículos</returns>
+        /// </summary>
         public Veiculo GetPlaca(string placa)
         {
             var veiculoPlaca = _context.Veiculo
@@ -32,6 +35,11 @@ namespace EduCar.Repositories
             return veiculoPlaca;
         }
 
+
+        /// <summary>
+        /// Exibe uma lista de veículos com o status 'Disponível'
+        /// <returns>Retorna uma lista de veículos disponíveis</returns>
+        /// </summary>
         public ICollection<Veiculo> GetStatusDisponivel()
         {
             var veiculos = _context.Veiculo
@@ -46,6 +54,10 @@ namespace EduCar.Repositories
 
         }
 
+        /// <summary>
+        /// Deleta todas as dependências quando um veículo for deletado
+        /// As foreign keys são também deletadas quando um veículo for excluído
+        /// </summary>
         public void DeleteAllDependencies(Veiculo veiculo)
         {
             _context.Veiculo.Remove(veiculo);
@@ -59,6 +71,10 @@ namespace EduCar.Repositories
             _context.SaveChanges();
         }
 
+        /// <summary>
+        ///Exibe todas as informações do veículo informado
+        ///<returns>Retorna uma lista de todos os detalhes do veículo selecionado</returns>
+        /// </summary>
         public ICollection<Veiculo> GetAllVeiculosCompletos()
         {
             var veiculoCompleto = _context.Veiculo
