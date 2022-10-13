@@ -62,8 +62,9 @@ namespace EduCar_Tests.ControllersTests
         /// <summary>
         /// Teste de insert da entidade atual
         /// </summary>
+        /// <returns>Bad Request caso retorne null</returns>
         [Fact]
-        public void TestInsertSalvando()
+        public void TestInsertJaVendido()
         {
             var result = _ctl.InsertPedido(new()
             {// Criação de um objeto para um teste de inserção
@@ -71,26 +72,8 @@ namespace EduCar_Tests.ControllersTests
                 IdConcessionaria = 1,
                 IdVeiculo = 1,
                 IdCartao = 1,
-                SalvarCartaoNoBanco = true
             });
-            Assert.IsType<OkObjectResult>(result);
-        }
-
-        /// <summary>
-        /// Teste de insert da entidade atual
-        /// </summary>
-        [Fact]
-        public void TestInsertNaoSalvando()
-        {
-            var result = _ctl.InsertPedido(new()
-            {// Criação de um objeto para um teste de inserção
-                IdUsuario = 1,
-                IdConcessionaria = 1,
-                IdVeiculo = 1,
-                IdCartao = 1,
-                SalvarCartaoNoBanco = false
-            });
-            Assert.IsType<OkObjectResult>(result);
-        }
+            Assert.IsType<BadRequestObjectResult>(result);
+        }       
     }
 }
