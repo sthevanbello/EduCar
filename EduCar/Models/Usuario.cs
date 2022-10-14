@@ -26,7 +26,7 @@ namespace EduCar.Models
         [StringLength(11)]
         public string Celular { get; set; }
 
-        [Required(ErrorMessage = "Email é obrigatório")]
+        [Required(ErrorMessage = "Email é obrigatório"), EmailAddress]
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido")]
         public string Email { get; set; }
 
@@ -38,7 +38,7 @@ namespace EduCar.Models
         public bool Aceite { get; set; }
 
         [ForeignKey("Endereco")]
-        public int IdEndereço { get; set; }
+        public int IdEndereco { get; set; }
         public Endereco Endereco { get; set; }
 
         [ForeignKey("TipoUsuario")]

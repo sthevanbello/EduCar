@@ -3,14 +3,16 @@ using EduCar.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EduCar.Migrations
 {
     [DbContext(typeof(EduCarContext))]
-    partial class EduCarContextModelSnapshot : ModelSnapshot
+    [Migration("20221011164334_AtualizacaoDB")]
+    partial class AtualizacaoDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,7 +318,7 @@ namespace EduCar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdEndereco")
+                    b.Property<int>("IdEndereço")
                         .HasColumnType("int");
 
                     b.Property<int>("IdTipoUsuario")
@@ -336,7 +338,7 @@ namespace EduCar.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEndereco");
+                    b.HasIndex("IdEndereço");
 
                     b.HasIndex("IdTipoUsuario");
 
@@ -462,7 +464,7 @@ namespace EduCar.Migrations
                 {
                     b.HasOne("EduCar.Models.Endereco", "Endereco")
                         .WithMany()
-                        .HasForeignKey("IdEndereco")
+                        .HasForeignKey("IdEndereço")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
