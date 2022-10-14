@@ -11,7 +11,7 @@ namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
@@ -20,7 +20,7 @@ namespace EduCar.Controllers
         {
             _usuarioRepository = usuarioRepository;
         }
-        
+
         /// <summary>
         /// Inserir um usuário cliente no banco.
         /// </summary>
@@ -28,19 +28,26 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///          Usuários: Administrador, Cliente e Vendedor
+        ///          Qualquer pessoa
         /// 
         /// </remarks>
         /// <param name="usuario">Usuário cliente a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um usuário cliente inserido ou uma mensagem se houve alguma falha</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [AllowAnonymous]
         [HttpPost("Cliente")]
         public IActionResult InsertUsuarioCliente(Usuario usuario)
         {
             try
             {
+                if (!usuario.Aceite)
+                {
+                    return BadRequest(new 
+                    { 
+                        msg = "Os termos não foram aceitos e por isso o usuário não foi criado" 
+                    });
+                }
                 // Criptografa a senha
                 usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
                 usuario.IdTipoUsuario = 1; // Força a inserção de um usuário do tipo cliente
