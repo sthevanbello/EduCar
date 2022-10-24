@@ -47,9 +47,16 @@ namespace EduCar
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { 
-                    Title = "EduCar", 
-                    Version = "v1" 
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "EduCar",
+                    Version = "v1",
+                    Description = "Case final - EduCar - Serviço Online de comércio de veículos",
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "Repositório do código completo",
+                        Url = new Uri("https://github.com/sthevanbello/EduCar")
+                    }
                 });
 
                 // Criação do botão 'Authorize' no Swagger, para colar o token no Bearer e verificá-lo
