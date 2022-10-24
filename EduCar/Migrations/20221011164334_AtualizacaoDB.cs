@@ -7,9 +7,9 @@ namespace EduCar.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropColumn(
-            //    name: "Imagem",
-            //    table: "Veiculo");
+            migrationBuilder.DropColumn(
+                name: "Imagem",
+                table: "Veiculo");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Vencimento",
