@@ -1,4 +1,5 @@
 ﻿using EduCar.Models;
+using System.Collections.Generic;
 
 namespace EduCar.Interfaces
 {
@@ -8,5 +9,7 @@ namespace EduCar.Interfaces
     public interface IEnderecoRepository : IBaseRepository<Endereco>
     {
         // Todos os métodos básicos estão a IBaseRepository
+        public ICollection<Concessionaria> GetAllEnderecosConcessionarias();
+        public Usuario GetByEmailEnderecoUsuario(string email);
     }
 }

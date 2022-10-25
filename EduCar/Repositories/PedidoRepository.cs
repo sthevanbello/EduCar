@@ -64,13 +64,13 @@ namespace EduCar.Repositories
                   .Include(c => c.Cartao)
                   .Where(e => e.Usuario.Email == email)
                   .ToList();
-
-            pedidos.ForEach(c => c.Cartao = new Cartao
+            if (pedidos.Count>0)
             {
-                Titular = c.Cartao.Titular,
-                Numero = "xxxx xxxx xxxx " + c.Cartao.Numero.Substring(12)
-            });
-
+                pedidos.ForEach(c => c.Cartao = new Cartao
+                {
+                    Titular = c.Cartao.Titular
+                });
+            }
             return pedidos;
         }
 
@@ -105,6 +105,7 @@ namespace EduCar.Repositories
         {
             var pedidos = _context.Pedido
                   .Include(u => u.Usuario)
+                  .ThenInclude(t => t.TipoUsuario)
                   .Include(c => c.Concessionaria)
                   .Include(v => v.Veiculo)
                   .ToList();
