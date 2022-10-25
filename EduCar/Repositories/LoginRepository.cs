@@ -62,7 +62,8 @@ namespace EduCar.Repositories
                         new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
                         new Claim(JwtRegisteredClaimNames.Jti, usuario.Id.ToString()),
                         new Claim(ClaimTypes.Role, usuario.TipoUsuario.Tipo), // Colocar o nível de acesso de acordo com o nível do usuário
-                        new Claim("Cargo", usuario.TipoUsuario.Tipo) // Identifica o cargo do usuário
+                        new Claim("Cargo", usuario.TipoUsuario.Tipo), // Identifica o cargo do usuário
+                        new Claim(ClaimTypes.Name, usuario.Email)
                     };
                     // Criada a chave de criptografia
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("case-chave-autenticacao"));

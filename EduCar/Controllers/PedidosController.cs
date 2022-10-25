@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System;
 using System.Linq;
+using EduCar.Repositories;
+using System.Security.Claims;
 
 namespace EduCar.Controllers
 {
@@ -106,24 +108,34 @@ namespace EduCar.Controllers
         ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
+        /// /// <param name="email">Id do pedido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos de um usuário</returns>
         [Authorize(Roles = "Administrador, Cliente, Vendedor")]
-        [HttpGet("Email")]
+        [HttpGet("Usuario/{email}")]
         public IActionResult GetPedidosByEmailUsuario(string email)
         {
             try
             {
-                var pedidosUsuario = _pedidoRepository.GetPedidosByUsuario(email);
-                if(pedidosUsuario is null)
+                var emailRole = User.Identity.Name;
+                if (email.Equals(emailRole) || User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role.ToString()).Value == "Administrador")
                 {
-                    return BadRequest(new
+                    var pedidosUsuario = _pedidoRepository.GetPedidosByUsuario(email);
+                    if (pedidosUsuario is null)
                     {
-                        msg = "Não foi possível encontrar um usuário com o email fornecido"
-                    });
+                        return BadRequest(new
+                        {
+                            msg = "Não foi possível encontrar um usuário com o email fornecido"
+                        });
+                    }
+                    return Ok(pedidosUsuario);
                 }
-                return Ok(pedidosUsuario);
+                return BadRequest(new
+                {
+                    msg = "O e-mail fornecido não é do mesmo usuário que realizou a autenticação"
+                });
+
             }
             catch (Exception ex)
             {
@@ -143,15 +155,16 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///            Usuários: Administrador, Cliente e Vendedor
+        ///            Usuários: Administrador e Vendedor
         /// 
         /// </remarks>
+        /// <param name="id">Id do pedido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de pedidos de uma concessionária</returns>
         [Authorize(Roles = "Administrador, Vendedor")]
         [HttpGet("Concessionaria/{id}")]
-        public IActionResult GetPedidosByConcessionaria(int id)
+        public IActionResult GetPedidosByIdConcessionaria(int id)
         {
             try
             {
@@ -177,43 +190,7 @@ namespace EduCar.Controllers
             }
         }
 
-        /// <summary>
-        /// Exibir um pedido a partir do Id fornecido
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// Acesso permitido:
-        /// 
-        ///            Usuários: Administrador, Cliente e Vendedor
-        /// 
-        /// </remarks>
-        /// <param name="id">Id do pedido</param>
-        /// <response code="401">Acesso negado</response>
-        /// <response code="403">Nível de acesso não está autorizado</response>
-        /// <returns>Retorna um pedido</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
-        [HttpGet("{id}")]
-        public IActionResult GetByIdPedido(int id)
-        {
-            try
-            {
-                var pedido = _pedidoRepository.GetPedidosCompletos().FirstOrDefault(p => p.Id == id);
-                if (pedido is null)
-                {
-                    return NotFound(new { msg = "Pedido não foi encontrado. Verifique se o Id está correto" });
-                }
-                return Ok(pedido);
-            }
-            catch (Exception ex)
-            {
 
-                return BadRequest(new
-                {
-                    msg = "Falha ao exibir o pedido",
-                    ex.InnerException.Message
-                });
-            }
-        }
 
         /// <summary>
         /// Atualizar parte das informações do pedido

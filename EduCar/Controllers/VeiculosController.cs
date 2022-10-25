@@ -39,6 +39,14 @@ namespace EduCar.Controllers
         {
             try
             {
+                if (veiculo.CaracteristicasGerais.Portas < 2)
+                {
+                    return BadRequest(new { msg = "Cadastre um veículo com, no mínimo, duas portas " });
+                }
+                else if (veiculo.CaracteristicasGerais.Assentos < 2)
+                {
+                    return BadRequest(new { msg = "Cadastre um veículo com, no mínimo, dois assentos " });
+                }
                 var veiculoInserido = _veiculoRepository.Insert(veiculo);
                 return Ok(veiculoInserido);
             }
@@ -59,13 +67,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///          Usuários: Administrador, Vendedor
+        ///         Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de Veículos</returns>
-        [Authorize(Roles = "Administrador, Vendedor")]
+        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpGet]
         public IActionResult GetAllVeiculos()
         {
