@@ -60,11 +60,11 @@ namespace EduCar.Utils
             // Colocar o e-mail que receberá o token
             var destinatarios = new List<EmailAddress>()
             {
-                new ("fdsampaio@yahoo.com.br"),
-                new ("pah.souza06@gmail.com"),
-                new ("betania.ofranca@gmail.com"),
-                new ("roberta_fao@hotmail.com"),
-                new ("renildo.fagner@gmail.com"),
+                //new ("fdsampaio@yahoo.com.br"),
+                //new ("pah.souza06@gmail.com"),
+                //new ("betania.ofranca@gmail.com"),
+                //new ("roberta_fao@hotmail.com"),
+                //new ("renildo.fagner@gmail.com"),
                 new ("sthevan.alves@gmail.com"),
                 new ("casefinaledusyncdotnet@gmail.com"),
                 new (email)
