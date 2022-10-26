@@ -62,7 +62,8 @@ namespace EduCar.Repositories
                         new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
                         new Claim(JwtRegisteredClaimNames.Jti, usuario.Id.ToString()),
                         new Claim(ClaimTypes.Role, usuario.TipoUsuario.Tipo), // Colocar o nível de acesso de acordo com o nível do usuário
-                        new Claim("Cargo", usuario.TipoUsuario.Tipo) // Identifica o cargo do usuário
+                        new Claim("Cargo", usuario.TipoUsuario.Tipo), // Identifica o cargo do usuário
+                        new Claim(ClaimTypes.Name, usuario.Email)
                     };
                     // Criada a chave de criptografia
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("case-chave-autenticacao"));
@@ -99,20 +100,16 @@ namespace EduCar.Repositories
 
             var tokenEmail = Utilidade.GerarToken(token);
 
-            var connectionString = _configuration.GetConnectionString("Email");
-            var remetente = _configuration.GetValue<string>("EnderecoEmail:remetente");
-            var emailClient = new EmailClient(connectionString);
-            var emailContent = Utilidade.GerarEmail(tokenEmail);
-            var destinatarios = Utilidade.SelecionarDestinatarios(usuarioEmail);
-            EmailRecipients emailRecipients = new EmailRecipients(destinatarios);
-            EmailMessage emailMensagem = new EmailMessage(remetente, emailContent, emailRecipients);
-            SendEmailResult emailResult = emailClient.Send(emailMensagem, CancellationToken.None);
+            Utilidade.EnviarEmail(_configuration, usuarioEmail, tokenEmail);
 
             return new
             {
                 mensagem = "O e-mail para efetuar a troca de senha foi enviado com sucesso..."
             };
         }
+
+        
+
         /// <summary>
         /// Efetuar a troca de senha de acordo com o token recebido por e-mail
         /// </summary>

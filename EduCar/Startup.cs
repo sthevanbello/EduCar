@@ -37,7 +37,9 @@ namespace EduCar
             // Recebe a string de conexão do arquivo appsettings.json
             services.AddDbContext<EduCarContext>(options =>
             //options.UseSqlServer(Configuration.GetConnectionString("Azure")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-            options.UseSqlServer(Configuration.GetConnectionString("SqlServer")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+            //options.UseSqlServer(Configuration.GetConnectionString("SqlServer")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+            //options.UseSqlServer(Configuration.GetConnectionString("SqlServerNew")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+            options.UseSqlServer(Configuration.GetConnectionString("SqlVMAzure")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
             // Evita o erro de loop infinito em objetos relacionados
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -45,9 +47,16 @@ namespace EduCar
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { 
-                    Title = "EduCar", 
-                    Version = "v1" 
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "EduCar",
+                    Version = "v1",
+                    Description = "Case final - EduCar - Serviço Online de comércio de veículos",
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "Repositório do código completo",
+                        Url = new Uri("https://github.com/sthevanbello/EduCar")
+                    }
                 });
 
                 // Criação do botão 'Authorize' no Swagger, para colar o token no Bearer e verificá-lo

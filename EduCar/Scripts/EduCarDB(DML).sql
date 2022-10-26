@@ -1,5 +1,5 @@
 -- Altera o uso do banco de dados 
-USE EduCarDB;
+USE EduCarDbVM;
 GO
 
 -- Insere os dados nas respectivas tabelas
@@ -47,7 +47,7 @@ INSERT INTO Concessionaria (Nome, Telefone, Site, IdEndereco) VALUES
 ('Belino Veículos', '7130008664', 'www.belinoveiculos.com.br', 4);
 GO
 
-INSERT INTO Usuario (Nome, Sobrenome, CPF_CNPJ, Celular, Email, Senha, Aceite, IdEndereço, IdTipoUsuario) VALUES 
+INSERT INTO Usuario (Nome, Sobrenome, CPF_CNPJ, Celular, Email, Senha, Aceite, IdEndereco, IdTipoUsuario) VALUES 
 ('Marge','Simpson','87738061022','12977777777','marge@email.com','$2b$10$FAzuQ8WXh3JmMmItpyGK5.hU0LARaADkICGXye9H8luEAwkGd7tbG', 1, 6, 1), -- 123456789
 ('Luigi','Mario','69197904082','71988888888','luigi@email.com','$2b$10$Q1yG6YNw8nfyALeBwAg8KeSYlPXBhoTu/Zziz4Js6VpSgpB8Vixa2', 1, 3, 1), -- 123456789
 ('Carro','System','81932668000179','11966666666','carrosystem@email.com','$2b$10$AQxvdFoyVuYUhga5afOYLumsHF2j1qvSuwHD1fC9.y9QA6DM5G88O', 1, 1, 2), -- 123456789

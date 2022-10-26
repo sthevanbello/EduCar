@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace EduCar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
@@ -20,7 +22,7 @@ namespace EduCar.Controllers
         {
             _usuarioRepository = usuarioRepository;
         }
-        
+
         /// <summary>
         /// Inserir um usuário cliente no banco.
         /// </summary>
@@ -28,19 +30,26 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///          Usuários: Administrador, Cliente e Vendedor
+        ///          Qualquer pessoa
         /// 
         /// </remarks>
         /// <param name="usuario">Usuário cliente a ser inserido</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um usuário cliente inserido ou uma mensagem se houve alguma falha</returns>
-        [Authorize(Roles = "Administrador, Cliente, Vendedor")]
+        [AllowAnonymous]
         [HttpPost("Cliente")]
         public IActionResult InsertUsuarioCliente(Usuario usuario)
         {
             try
             {
+                if (!usuario.Aceite)
+                {
+                    return BadRequest(new 
+                    { 
+                        msg = "Os termos não foram aceitos e por isso o usuário não foi criado" 
+                    });
+                }
                 // Criptografa a senha
                 usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
                 usuario.IdTipoUsuario = 1; // Força a inserção de um usuário do tipo cliente
@@ -134,13 +143,13 @@ namespace EduCar.Controllers
         /// 
         /// Acesso permitido:
         /// 
-        ///           Usuários: Administrador e Vendedor
+        ///           Usuários: Administrador
         /// 
         /// </remarks>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma lista de usuários</returns>
-        [Authorize(Roles = "Administrador, Vendedor")]
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public IActionResult GetAllUsuarios()
         {
@@ -159,9 +168,8 @@ namespace EduCar.Controllers
                 });
             }
         }
-
         /// <summary>
-        /// Exibir um usuário a partir do Id fornecido
+        /// Exibir um usuário a partir do e-mail fornecido
         /// </summary>
         /// <remarks>
         /// 
@@ -170,22 +178,27 @@ namespace EduCar.Controllers
         ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário</param>
+        /// <param name="email">E-mail do usuário</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um Usuário</returns>
         [Authorize(Roles = "Administrador, Cliente, Vendedor")]
-        [HttpGet("{id}")]
-        public IActionResult GetByIdUsuario(int id)
+        [HttpGet("{email}")]
+        public IActionResult GetByEmailUsuario(string email)
         {
             try
             {
-                var usuario = _usuarioRepository.GetById(id);
-                if (usuario is null)
+                var emailRole = User.Identity.Name;
+                if (email.Equals(emailRole) || User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role.ToString()).Value == "Administrador")
                 {
-                    return NotFound(new { msg = "Usuário não foi encontrado. Verifique se o Id está correto" });
+                    var usuario = _usuarioRepository.GetByEmailUsuario(email);
+                    if (usuario is null)
+                    {
+                        return NotFound(new { msg = "Usuário não foi encontrado. Verifique se o e-mail está correto" });
+                    }
+                    return Ok(usuario);
                 }
-                return Ok(usuario);
+                return BadRequest(new { msg = "O e-mail informado não corresponde ao e-mail utilizado na autenticação" });
             }
             catch (Exception ex)
             {

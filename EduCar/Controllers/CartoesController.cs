@@ -3,10 +3,13 @@ using EduCar.Models;
 using EduCar.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
+using System.Linq;
+using System.Security.Claims;
 
 namespace EduCar.Controllers
 {
@@ -64,17 +67,23 @@ namespace EduCar.Controllers
         ///           Usuários: Administrador e Cliente
         /// 
         /// </remarks>
+        /// <param name="email">Email do titular dos cartões</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna um cartão cadastrados no sistema de acordo com o id fornecido</returns>
         [Authorize(Roles = "Administrador, Cliente")]
-        [HttpGet("{id}")]
-        public IActionResult GetByIdCartao(int id)
+        [HttpGet("{email}")]
+        public IActionResult GetByEmailCartao(string email)
         {
             try
             {
-                var cartoes = _cartaoRepository.GetById(id);
-                return Ok(cartoes);
+                var emailRole = User.Identity.Name;
+                if (email.Equals(emailRole) || User.Claims.FirstOrDefault(x=>x.Type == ClaimTypes.Role.ToString()).Value == "Administrador")
+                {
+                    var cartoes = _cartaoRepository.GetByEmailCartoes(email);
+                    return Ok(cartoes);
+                }
+                return BadRequest(new { msg = "O e-mail informado não corresponde ao e-mail utilizado na autenticação" });
             }
             catch (Exception ex)
             {
@@ -85,6 +94,6 @@ namespace EduCar.Controllers
                     ex.InnerException.Message
                 });
             }
-        }        
+        }
     }
 }
