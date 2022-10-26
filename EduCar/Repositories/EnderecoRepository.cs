@@ -18,7 +18,10 @@ namespace EduCar.Repositories
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Retornar as concessionárias com endereço completo
+        /// </summary>
+        /// <returns>Retorna as concessionárias com endereço completo</returns>
         public ICollection<Concessionaria> GetAllEnderecosConcessionarias()
         {
             var enderecosConcessionarias = _context.Concessionaria
@@ -27,7 +30,11 @@ namespace EduCar.Repositories
             return enderecosConcessionarias;
                                             
         }
-
+        /// <summary>
+        /// Retornar um usuário com endereço completo a partir do e-mail fornecido
+        /// </summary>
+        /// <param name="email">E-mail do usuario</param>
+        /// <returns>Retornar um usuário com endereço completo a partir do e-mail fornecido</returns>
         public Usuario GetByEmailEnderecoUsuario(string email)
         {
              var enderecoUsuario = _context.Usuario

@@ -19,7 +19,11 @@ namespace EduCar.Repositories
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Retornar os cartões de acordo com o e-mail fornecido
+        /// </summary>
+        /// <param name="email">E-mail do usuário titular do cartão</param>
+        /// <returns>Retornar os cartões de acordo com o e-mail fornecido</returns>
         public ICollection<Cartao> GetByEmailCartoes(string email)
         {
             var cartoes = _context.Cartao

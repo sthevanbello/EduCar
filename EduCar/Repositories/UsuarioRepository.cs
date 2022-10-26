@@ -18,7 +18,11 @@ namespace EduCar.Repositories
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Retornar um usuário a partir do e-mail fornecido
+        /// </summary>
+        /// <param name="email">E-mail do usuário</param>
+        /// <returns>Retorna um usuário a partir do e-mail fornecido</returns>
         public Usuario GetByEmailUsuario(string email)
         {
             var usuario = _context.Usuario
