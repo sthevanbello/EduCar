@@ -8,6 +8,7 @@ using System.Data;
 using System;
 using System.Linq;
 using System.Security.Claims;
+using EduCar.Repositories;
 
 namespace EduCar.Controllers
 {
@@ -45,9 +46,9 @@ namespace EduCar.Controllers
             {
                 if (!usuario.Aceite)
                 {
-                    return BadRequest(new 
-                    { 
-                        msg = "Os termos não foram aceitos e por isso o usuário não foi criado" 
+                    return BadRequest(new
+                    {
+                        msg = "Os termos não foram aceitos e por isso o usuário não foi criado"
                     });
                 }
                 // Criptografa a senha
@@ -221,14 +222,14 @@ namespace EduCar.Controllers
         ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário</param>
+        /// <param name="email">Id do usuário</param>
         /// <param name="patchUsuario">informações a serem alteradas</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
         [Authorize(Roles = "Administrador, Cliente, Vendedor")]
         [HttpPatch("{id}")]
-        public IActionResult PatchUsuario(int id, [FromBody] JsonPatchDocument patchUsuario)
+        public IActionResult PatchUsuario(string email, [FromBody] JsonPatchDocument patchUsuario)
         {
             try
             {
@@ -237,15 +238,20 @@ namespace EduCar.Controllers
                     return BadRequest(new { msg = "Insira os dados novos" });
                 }
 
-                var usuario = _usuarioRepository.GetById(id);
-                if (usuario is null)
+                var emailRole = User.Identity.Name;
+                if (email.Equals(emailRole) || User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role.ToString()).Value == "Administrador")
                 {
-                    return NotFound(new { msg = "Usuário não encontrado. Conferir o Id informado" });
+                    var usuarioRetorno = _usuarioRepository.GetByEmailUsuario(email);
+                    if (usuarioRetorno is null)
+                    {
+                        return BadRequest(new
+                        {
+                            msg = "Não foi possível encontrar um usuário com o email fornecido"
+                        });
+                    }
+                    _usuarioRepository.Patch(patchUsuario, usuarioRetorno);
                 }
-
-                _usuarioRepository.Patch(patchUsuario, usuario);
-
-                return Ok(new { msg = "Usuário alterado", usuario });
+                return Ok(new { msg = "Usuário alterado com sucesso" });
             }
             catch (Exception ex)
             {
@@ -268,32 +274,32 @@ namespace EduCar.Controllers
         ///           Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário</param>
+        /// <param name="email">Id do usuário</param>
         /// <param name="usuario">Dados atualizados</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem dizendo se o usuário foi alterado ou se houve algum erro</returns>
         [Authorize(Roles = "Administrador, Cliente, Vendedor")]
-        [HttpPut("{id}")]
-        public IActionResult PutUsuario(int id, Usuario usuario)
+        [HttpPut("{email}")]
+        public IActionResult PutUsuario(string email, Usuario usuario)
         {
             try
             {
-                if (id != usuario.Id)
+                var emailRole = User.Identity.Name;
+                if (email.Equals(emailRole) || User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role.ToString()).Value == "Administrador")
                 {
-                    return BadRequest(new { msg = "Os ids não são correspondentes" });
+                    var usuarioRetorno = _usuarioRepository.GetByEmailUsuario(email);
+                    if (usuarioRetorno is null)
+                    {
+                        return BadRequest(new
+                        {
+                            msg = "Não foi possível encontrar um usuário com o email fornecido"
+                        });
+                    }
+                    // Criptografa a senha
+                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+                    _usuarioRepository.Put(usuario);
                 }
-                var usuarioRetorno = _usuarioRepository.GetById(id);
-
-                if (usuarioRetorno is null)
-                {
-                    return NotFound(new { msg = "Usuário não encontrado. Conferir o Id informado" });
-                }
-
-                // Criptografa a senha
-                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                _usuarioRepository.Put(usuario);
-
                 return Ok(new { msg = "Usuário alterado", usuario });
             }
             catch (Exception ex)
@@ -316,25 +322,29 @@ namespace EduCar.Controllers
         ///            Usuários: Administrador, Cliente e Vendedor
         /// 
         /// </remarks>
-        /// <param name="id">Id do usuário a ser excluído</param>
+        /// <param name="email">Id do usuário a ser excluído</param>
         /// <response code="401">Acesso negado</response>
         /// <response code="403">Nível de acesso não está autorizado</response>
         /// <returns>Retorna uma mensagem informando se o usuário foi excluído ou se houve falha</returns>
         [Authorize(Roles = "Administrador, Cliente, Vendedor")]
-        [HttpDelete("{id}")]
-        public IActionResult DeleteUsuario(int id)
+        [HttpDelete("{email}")]
+        public IActionResult DeleteUsuario(string email)
         {
             try
             {
-                var usuarioRetorno = _usuarioRepository.GetById(id);
-
-                if (usuarioRetorno is null)
+                var emailRole = User.Identity.Name;
+                if (email.Equals(emailRole) || User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role.ToString()).Value != "Cliente")
                 {
-                    return NotFound(new { msg = "Usuário não encontrado. Conferir o Id informado" });
+                    var usuarioRetorno = _usuarioRepository.GetByEmailUsuario(email);
+                    if (usuarioRetorno is null)
+                    {
+                        return BadRequest(new
+                        {
+                            msg = "Não foi possível encontrar um usuário com o email fornecido"
+                        });
+                    }
+                    _usuarioRepository.Delete(usuarioRetorno);
                 }
-
-                _usuarioRepository.Delete(usuarioRetorno);
-
                 return Ok(new { msg = "Usuário excluído com sucesso" });
             }
             catch (Exception ex)

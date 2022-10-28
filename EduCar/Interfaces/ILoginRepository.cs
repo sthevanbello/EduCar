@@ -9,6 +9,6 @@ namespace EduCar.Interfaces
     {
         public string Logar(Login login);
         public object SolicitarTokenSenha(string email);
-        public object TrocarSenha(string token, string senhaNova);
+        public object TrocarSenha(string token, string senhaNova, string cpf);
     }
 }

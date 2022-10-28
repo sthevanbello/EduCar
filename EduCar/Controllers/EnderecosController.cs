@@ -199,20 +199,32 @@ namespace EduCar.Controllers
         {
             try
             {
+                var tipoUsuarioLogado = User.Claims.FirstOrDefault(c => c.Type == "Cargo").Value;
+                var emailUsuario = User.Identity.Name;
                 if (id != endereco.Id)
-                {
                     return BadRequest(new { msg = "Os ids não são correspondentes" });
-                }
+
                 var enderecoRetorno = _enderecoRepository.GetById(id);
 
                 if (enderecoRetorno is null)
-                {
                     return NotFound(new { msg = "Endereço não encontrado. Conferir o Id informado" });
+
+                else if(id != _enderecoRepository.GetByEmailEnderecoUsuario(emailUsuario).IdEndereco){
+                    return BadRequest(new 
+                    { 
+                        msg = "O Id de endereço não corresponde ao seu endereço cadastrado"
+                    });
                 }
+                else if (tipoUsuarioLogado == "Cliente")
+                {
+                    var enderecoCliente = _enderecoRepository.GetByEmailEnderecoUsuario(emailUsuario);
+                    _enderecoRepository.Put(enderecoCliente.Endereco);
+                    return Ok(new { msg = "Endereço do alterado com sucesso pelo cliente", endereco });
+                }
+                else
+                    _enderecoRepository.Put(endereco);             
 
-                _enderecoRepository.Put(endereco);
-
-                return Ok(new { msg = "Endereço alterado", endereco });
+                return Ok(new { msg = $"Endereço do alterado com sucesso pelo {User.Claims.Select(u => u.Value)}", endereco });
             }
             catch (Exception ex)
             {

@@ -63,7 +63,7 @@ namespace EduCar.Repositories
                         new Claim(JwtRegisteredClaimNames.Jti, usuario.Id.ToString()),
                         new Claim(ClaimTypes.Role, usuario.TipoUsuario.Tipo), // Colocar o nível de acesso de acordo com o nível do usuário
                         new Claim("Cargo", usuario.TipoUsuario.Tipo), // Identifica o cargo do usuário
-                        new Claim(ClaimTypes.Name, usuario.Email)
+                        new Claim(ClaimTypes.Name, usuario.Email),
                     };
                     // Criada a chave de criptografia
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("case-chave-autenticacao"));
@@ -108,19 +108,20 @@ namespace EduCar.Repositories
             };
         }
 
-        
+
 
         /// <summary>
         /// Efetuar a troca de senha de acordo com o token recebido por e-mail
         /// </summary>
         /// <param name="token">Token recebido por e-mail</param>
         /// <param name="senhaNova">Senha nova a ser cadastrada</param>
+        /// <param name="cpf">CPF do usuário</param>
         /// <returns>Retorna uma mensagem de sucesso se a senha foi alterada ou um null indicando que houve falha</returns>
-        public object TrocarSenha(string token, string senhaNova)
+        public object TrocarSenha(string token, string senhaNova, string cpf)
         {
             var resultOne = token.Substring(12);
             var result = resultOne.Substring(0,60);
-            var usuarios = _context.Usuario.ToList();
+            var usuarios = _context.Usuario.Where(u => u.CPF_CNPJ == cpf).ToList();
             Usuario usuario = null;
             usuarios.ForEach(user =>
             {

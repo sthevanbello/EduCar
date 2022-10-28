@@ -1,5 +1,5 @@
 -- Altera o uso do banco de dados 
-USE EduCarDbVM;
+USE EduCarDb;
 GO
 
 -- Insere os dados nas respectivas tabelas

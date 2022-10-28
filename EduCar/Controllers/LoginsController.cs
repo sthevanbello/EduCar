@@ -115,13 +115,14 @@ namespace EduCar.Controllers
         /// </summary>
         /// <param name="token">Token recebido por e-mail</param>
         /// <param name="senhaNova">Senha nova a ser atualizada</param>
+        /// <param name="cpf">CPF do usuário</param>
         /// <returns>Retorna uma mensagem de sucesso ou de falha ao solicitar a troca da senha</returns>
         [HttpPost("Senha/Trocar")]
-        public IActionResult TrocarSenha(string token, string senhaNova )
+        public IActionResult TrocarSenha(string token, string senhaNova, string cpf )
         {
             try
             {
-                var retorno = _loginRepository.TrocarSenha(token, senhaNova);
+                var retorno = _loginRepository.TrocarSenha(token, senhaNova, cpf);
 
                 if (retorno is null)
                 {
