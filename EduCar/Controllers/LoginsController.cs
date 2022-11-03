@@ -128,7 +128,7 @@ namespace EduCar.Controllers
                 {
                     return BadRequest(new
                     {
-                        msg = "Não foi possível trocar a senha, verifique se o token está correto"
+                        msg = "Não foi possível trocar a senha, verifique se as informações estão corretas"
                     });
                 }
 

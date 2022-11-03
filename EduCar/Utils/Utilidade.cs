@@ -77,9 +77,10 @@ namespace EduCar.Utils
         /// <param name="_configuration">Utilizado para acessar o appsettings.json</param>
         /// <param name="usuarioEmail">E-mail do usuário</param>
         /// <param name="tokenEmail">Token enviado por e-mail</param>
-        public  static void EnviarEmail(IConfiguration _configuration, string usuarioEmail, string tokenEmail)
+        public static void EnviarEmail(IConfiguration _configuration, string usuarioEmail, string tokenEmail)
         {
-            var connectionString = _configuration.GetConnectionString("Email");
+            //var connectionString = _configuration.GetConnectionString("Email");
+            var connectionString = _configuration.GetValue<string>("ApiEmail:endpoint");
             var remetente = _configuration.GetValue<string>("EnderecoEmail:remetente");
             var emailClient = new EmailClient(connectionString);
             var emailContent = GerarEmail(tokenEmail);
