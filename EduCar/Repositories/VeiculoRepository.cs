@@ -79,8 +79,11 @@ namespace EduCar.Repositories
         {
             var veiculoCompleto = _context.Veiculo
                                 .Include(f => f.FichaTecnica)
+                                .ThenInclude(d => d.Direcao)
+                                .Include(c => c.FichaTecnica.Cambio)
                                 .Include(c => c.CaracteristicasGerais)
                                 .Include(con => con.Concessionaria)
+                                .ThenInclude(e => e.Endereco)
                                 .Include(s => s.StatusVenda)
                                 .ToList();
                 return veiculoCompleto;

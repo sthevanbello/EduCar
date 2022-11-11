@@ -58,9 +58,8 @@ namespace EduCar.Repositories
             }
 
             var pedidos = _context.Pedido
-                  .Include(u => u.Usuario)
-                  .Include(c => c.Concessionaria)
                   .Include(v => v.Veiculo)
+                  .Include(c => c.Concessionaria)
                   .Include(c => c.Cartao)
                   .Where(e => e.Usuario.Email == email)
                   .ToList();
